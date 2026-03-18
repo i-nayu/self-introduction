@@ -10,6 +10,7 @@ const TerminalComponent: React.FC = () => {
   // 入力中の文字列を保持するためのRef（Stateだと再レンダリングで入力が遅れるため）
   const commandBuffer = useRef<string>('');
   const commandHistory = useRef<string[]>([]);
+  const historyIndex = useRef<number | null>(null);
 
   useEffect(() => {
     if (!terminalRef.current) return;
@@ -44,29 +45,53 @@ const TerminalComponent: React.FC = () => {
     term.onData((data) => {
       const code = data.charCodeAt(0);
 
-      if (code === 13) { // --- Enter キー ---
-        const input = commandBuffer.current.trim();
-        term.write('\r\n'); // 改行
+      if (code === 13) { // Enter
+    const input = commandBuffer.current.trim();
+    term.write('\r\n');
+    if (input.length > 0) {
+      handleCommand(input, term);
+    }
+    commandBuffer.current = '';
+    historyIndex.current = null; // Enterで履歴位置をリセット
+    prompt();
 
-        if (input.length > 0) {
-          handleCommand(input, term);
-        }
+  } else if (code === 127) { // Backspace
+    if (commandBuffer.current.length > 0) {
+      commandBuffer.current = commandBuffer.current.slice(0, -1);
+      term.write('\b \b');
+    }
 
-        commandBuffer.current = ''; // バッファをクリア
-        prompt();
+  } else if (data === '\x1b[A') { // ↑キー
+    if (commandHistory.current.length === 0) return;
+    if (historyIndex.current === null) {
+      historyIndex.current = commandHistory.current.length - 1;
+    } else if (historyIndex.current > 0) {
+      historyIndex.current -= 1;
+    }
+    // 現在の入力を消して履歴を表示
+    term.write('\x1b[2K\r> ' + commandHistory.current[historyIndex.current]);
+    commandBuffer.current = commandHistory.current[historyIndex.current];
 
-      } else if (code === 127) { // --- Backspace キー ---
-        if (commandBuffer.current.length > 0) {
-          commandBuffer.current = commandBuffer.current.slice(0, -1);
-          term.write('\b \b'); // 1文字戻って、空白で消して、また戻る
-        }
-      } else if (code < 32) {
-        // 制御文字（矢印キーなど）は今回は無視
-      } else {
-        // --- 通常の文字入力 ---
-        commandBuffer.current += data;
-        term.write(data);
-      }
+  } else if (data === '\x1b[B') { // ↓キー
+    if (commandHistory.current.length === 0 || historyIndex.current === null) return;
+    if (historyIndex.current < commandHistory.current.length - 1) {
+      historyIndex.current += 1;
+      term.write('\x1b[2K\r> ' + commandHistory.current[historyIndex.current]);
+      commandBuffer.current = commandHistory.current[historyIndex.current];
+    } else {
+      // 履歴の最後なら空にする
+      historyIndex.current = null;
+      term.write('\x1b[2K\r> ');
+      commandBuffer.current = '';
+    }
+
+  } else if (code < 32) {
+    // その他の制御文字は無視
+  } else {
+    // 通常文字
+    commandBuffer.current += data;
+    term.write(data);
+  }
     });
 
    // コマンド判定ロジック
