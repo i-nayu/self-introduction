@@ -6,7 +6,7 @@ import Terminal from '../Terminal/Terminal';
 const PROFILE = {
   name: "nayu",
   role: "立命館大学 RiST ",
-  avatarUrl: "../../../public/IMG_2510.JPG",
+  avatarUrl: "/IMG_2510.JPG",
   xUrl: "https://twitter.com/nayu4201",
   githubUrl: "https://github.com/i-nayu",
   about: `ハッカソンに出るのが好きで、主にwebサイトの開発を行っています。
@@ -20,7 +20,7 @@ const SKILLS = [
 const PROJECTS = [
   {
     title: "ARROW（JPHACKS 2025）",
-    imageUrl: "../../../public/ARROW.png",
+    imageUrl: "/ARROW.png",
     techStack: "React, CSS, TypeScript, JavaScript",
     description: "イベントを誰もが見逃すことなく手軽に参加/運営することが出来、イベント開催にあたっての手順の多さとそれがもたらすイベント参加/運営への障壁をなくすことができるWebアプリケーションです。",
     siteUrl: "",
@@ -28,7 +28,7 @@ const PROJECTS = [
   },
   {
     title: "TrusToken（KC3Hack 2026）",
-    imageUrl: "../../../public/TrusToken.jpg",
+    imageUrl: "/TrusToken.jpg",
     techStack: "React, CSS, TypeScript, JavaScript, Blockchain(SYMBOL)",
     description: "「信頼」をテーマとした、複数のコミュニティ（ルーム）ごとにトークンを発行・管理・取引できるブロックチェーンを使用したウェブアプリケーションです。",
     siteUrl: "",
@@ -36,7 +36,7 @@ const PROJECTS = [
   },
   {
     title: "Touction（NEMTUS Hackathon）",
-    imageUrl: "../../../public/Touction.png", // ★ここを追加
+    imageUrl: "/Touction.png", // ★ここを追加
     techStack: "React, CSS, TypeScript, JavaScript, Blockchain(SYMBOL)",
     description: "Symbolテストネットを使った写真トーナメント + オークションアプリです。 ユーザーは写真を投稿し、トーナメントで投票を受け、終了後にオークション入札・購入を行えます。",
     siteUrl: "",
@@ -44,7 +44,7 @@ const PROJECTS = [
   },
   {
     title: "gagaku_welcome（個人開発）",
-    imageUrl: "../../../public/IMG_7029.jpg", // ★ここを追加
+    imageUrl: "/IMG_7029.jpg", // ★ここを追加
     techStack: "React, CSS, TypeScript, JavaScript, Blockchain(SYMBOL)",
     description: "Symbolテストネットを使った写真トーナメント + オークションアプリです。 ユーザーは写真を投稿し、トーナメントで投票を受け、終了後にオークション入札・購入を行えます。",
     siteUrl: "https://gagakuwelcome.vercel.app",
@@ -52,7 +52,7 @@ const PROJECTS = [
   },
   {
     title: "RemiCal（個人開発・開発中）",
-    imageUrl: "../../../public/IMG_7030.jpg", // ★ここを追加
+    imageUrl: "/IMG_7030.jpg", // ★ここを追加
     techStack: "React, CSS, TypeScript, JavaScript, Blockchain(SYMBOL)",
     description: "予定の管理を簡単に行うための画像やファイルから予定情報を認識して登録できるカレンダーLINEbotです。",
     siteUrl: "",
