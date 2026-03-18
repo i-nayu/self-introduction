@@ -20,7 +20,7 @@ const SKILLS = [
 const PROJECTS = [
   {
     title: "ARROW（JPHACKS 2025）",
-    imageUrl: "/Arrow.png",
+    imageUrl: "/ARROW.png",
     techStack: "React, CSS, TypeScript, JavaScript",
     description: "イベントを誰もが見逃すことなく手軽に参加/運営することが出来、イベント開催にあたっての手順の多さとそれがもたらすイベント参加/運営への障壁をなくすことができるWebアプリケーションです。",
     siteUrl: "",
