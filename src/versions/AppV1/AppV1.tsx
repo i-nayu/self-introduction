@@ -49,6 +49,14 @@ const PROJECTS = [
     description: "Symbolテストネットを使った写真トーナメント + オークションアプリです。 ユーザーは写真を投稿し、トーナメントで投票を受け、終了後にオークション入札・購入を行えます。",
     siteUrl: "https://gagakuwelcome.vercel.app",
     githubUrl: "https://github.com/i-nayu/gagaku_welcome",
+  },
+  {
+    title: "RemiCal（個人開発・開発中）",
+    imageUrl: "../../../public/IMG_7030.jpg", // ★ここを追加
+    techStack: "React, CSS, TypeScript, JavaScript, Blockchain(SYMBOL)",
+    description: "予定の管理を簡単に行うための画像やファイルから予定情報を認識して登録できるカレンダーLINEbotです。",
+    siteUrl: "",
+    githubUrl: "https://github.com/i-nayu/RemiCal",
   }
 ];
 
