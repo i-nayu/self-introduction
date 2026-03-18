@@ -1,0 +1,162 @@
+/* src/app/portfolio.css */
+
+/* 全体の背景（少し明るいオフホワイト） */
+.page-wrapper {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #334155;
+}
+
+/* ヘッダー */
+.header-section {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 4rem 1rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f8fafc;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+.sns-btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 999px;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.btn-x { background-color: #1e293b; color: #fff; }
+.btn-x:hover { background-color: #334155; }
+.btn-github { background-color: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+.btn-github:hover { background-color: #e2e8f0; }
+
+/* メインコンテンツ枠 */
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* 💳 カード共通デザイン */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+/* 🎨 見出しの背景色（淡い色 ＋ 濃い文字色に変更） */
+/* About Me（淡い水色） */
+.header-light-blue { 
+  background-color: #eff6ff; 
+  color: #1e40af; 
+  padding: 1rem 1.5rem; 
+  font-size: 1.15rem; 
+  font-weight: bold; 
+  margin: 0;
+  border-bottom: 1px solid #dbeafe;
+}
+/* Skills（淡い紫色） */
+.header-light-purple { 
+  background-color: #f3e8ff; 
+  color: #6b21a8; 
+  padding: 1rem 1.5rem; 
+  font-size: 1.15rem; 
+  font-weight: bold; 
+  margin: 0;
+  border-bottom: 1px solid #e9d5ff;
+}
+/* 開発実績（淡いグレー） */
+.header-light-gray { 
+  background-color: #f8fafc; 
+  color: #334155; 
+  padding: 1rem 1.5rem; 
+  font-size: 1.15rem; 
+  font-weight: bold; 
+  margin: 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* カードの中身（白背景部分） */
+.card-body {
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+/* タグのデザイン（淡い色に変更） */
+.skill-tag {
+  display: inline-block;
+  background-color: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin: 0.25rem;
+}
+.tech-tag {
+  display: inline-block;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* リンクボタン（淡い色に変更） */
+.btn-link {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 0.8rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+.btn-site { 
+  background-color: #eff6ff; 
+  color: #1d4ed8; 
+  border: 1px solid #bfdbfe; 
+}
+.btn-site:hover { background-color: #dbeafe; }
+
+.btn-repo { 
+  background-color: #f8fafc; 
+  color: #334155; 
+  border: 1px solid #e2e8f0; 
+}
+.btn-repo:hover { background-color: #f1f5f9; }
+
+/* フッター（少し柔らかいダークグレー） */
+.footer-section {
+  max-width: 800px;
+  margin: 4rem auto 0;
+  padding: 0 1rem;
+}
+.footer-box {
+  background-color: #1e293b;
+  color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}

@@ -1,19 +1,57 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+このテンプレートは、ViteでReactを動作させるための最小構成です。
+HMR（ホットリロード）と基本的なESLint設定が含まれています。
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 アプリのバージョン切り替え
 
-## React Compiler
+このプロジェクトは複数のアプリバージョンに対応しています。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📁 ファイル構成
 
-## Expanding the ESLint configuration
+* src/versions/AppV1.tsx
+* src/versions/AppV2.tsx
+* src/appVersions.ts（バージョン管理）
+* src/App.tsx（切り替え用）
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔁 切り替え方法
+
+* デフォルト変更
+  → src/appVersions.ts の DEFAULT_APP_VERSION を編集
+
+* 一時的に切り替え
+  → URLに以下を追加
+
+?v=v1
+
+または
+
+?v=v2
+
+---
+
+## 🔌 利用可能なプラグイン
+
+* @vitejs/plugin-react（Oxc使用）
+* @vitejs/plugin-react-swc（SWC使用）
+
+---
+
+## ⚙️ React Compiler
+
+このテンプレートでは、開発・ビルド速度への影響を考慮して
+React Compilerは無効になっています。
+
+導入方法：
+https://react.dev/learn/react-compiler/installation
+
+---
+
+## 🧹 ESLint設定（本番向け）
+
+型チェックを含めたLint設定にする場合：
 
 ```js
 export default defineConfig([
@@ -21,32 +59,27 @@ export default defineConfig([
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
       tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
+      // より厳しくする場合
+      // tseslint.configs.strictTypeChecked,
+      // スタイルルール追加
+      // tseslint.configs.stylisticTypeChecked,
     ],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
         tsconfigRootDir: import.meta.dirname,
       },
-      // other options...
     },
   },
 ])
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
+
+## 🧩 React用ESLintプラグイン
 
 ```js
-// eslint.config.js
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
 
@@ -55,10 +88,7 @@ export default defineConfig([
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
-      // Other configs...
-      // Enable lint rules for React
       reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
@@ -66,8 +96,17 @@ export default defineConfig([
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
         tsconfigRootDir: import.meta.dirname,
       },
-      // other options...
     },
   },
 ])
 ```
+
+---
+
+## 💡 メモ
+
+* 本番では型チェック付きESLint推奨
+* SWCの方が高速
+* バージョン切り替えで検証しやすい構成
+
+---
