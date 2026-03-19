@@ -111,7 +111,8 @@
   margin: 0.25rem;
 }
 .tech-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   background-color: #eff6ff;
   color: #1d4ed8;
   border: 1px solid #bfdbfe;
@@ -119,7 +120,14 @@
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1.5rem;
+}
+
+.project-image-wrap {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* リンクボタン（淡い色に変更） */

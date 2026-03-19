@@ -128,9 +128,8 @@ export default function Portfolio() {
                 <div className="card-body">
                   {/* ★ここから: 画像がある場合のみ表示する処理を追加 */}
                   {project.imageUrl && (
-                    <div style={{
+                    <div className="project-image-wrap" style={{
                       marginBottom: '1.5rem',
-                      display: 'inline-block',      // 画像サイズに合わせる
                       border: '1px solid #e2e8f0', // 枠線
                       borderRadius: '8px',          // 角丸
                       overflow: 'hidden',           // 角丸内に画像を収める
