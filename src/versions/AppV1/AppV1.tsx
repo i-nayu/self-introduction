@@ -44,7 +44,7 @@ const PROJECTS = [
   },
   {
     title: "ClipboardApp（個人開発）",
-    imageUrl: "/Clipboard.png", // ★ここを追加
+    imageUrl: "/ClipboardApp.png", // ★ここを追加
     techStack: "Swift",
     description: "macOS向けのシンプルで軽量なクリップボード履歴管理アプリです。 バックグラウンドで常にコピー内容を監視し、ショートカットキーで素早く履歴を呼び出すことができます。",
     siteUrl: "",
