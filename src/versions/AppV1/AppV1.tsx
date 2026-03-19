@@ -10,7 +10,7 @@ const PROFILE = {
   xUrl: "https://twitter.com/nayu4201",
   githubUrl: "https://github.com/i-nayu",
   about: `ハッカソンに出るのが好きで、主にwebサイトの開発を行っています。
-          最近はブロックチェーンに興味があります。`
+          最近はブロックチェーンとSwiftに興味があります。`
 };
 
 const SKILLS = [
@@ -41,6 +41,14 @@ const PROJECTS = [
     description: "Symbolテストネットを使った写真トーナメント + オークションアプリです。 ユーザーは写真を投稿し、トーナメントで投票を受け、終了後にオークション入札・購入を行えます。",
     siteUrl: "",
     githubUrl: "https://github.com/i-nayu/Touction",
+  },
+  {
+    title: "ClipboardApp（個人開発）",
+    imageUrl: "/Clipboard.png", // ★ここを追加
+    techStack: "Swift",
+    description: "macOS向けのシンプルで軽量なクリップボード履歴管理アプリです。 バックグラウンドで常にコピー内容を監視し、ショートカットキーで素早く履歴を呼び出すことができます。",
+    siteUrl: "",
+    githubUrl: "https://github.com/i-nayu/ClipboardApp",
   },
   {
     title: "gagaku_welcome（個人開発）",
