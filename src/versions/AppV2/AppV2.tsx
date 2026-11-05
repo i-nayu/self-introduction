@@ -4,7 +4,7 @@ import './AppV2.css'; // ★CSSを読み込む
 // データの定義
 const PROFILE = {
   name: "nayu",
-  role: "立命館大学 RiST ",
+  role: "立命館大学",
   avatarUrl: "../../../public/IMG_2510.JPG", 
   xUrl: "https://twitter.com/nayu4201",
   githubUrl: "https://github.com/i-nayu",
@@ -49,7 +49,6 @@ export default function Portfolio() {
       
       {/* ▼ ヘッダー ▼ */}
       <header className="header-section">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={PROFILE.avatarUrl} alt="Profile Avatar" className="profile-avatar" />
         <h1 style={{ fontSize: '2rem', margin: '0 0 0.5rem 0', color: '#1e293b' }}>{PROFILE.name}</h1>
         <p style={{ color: '#64748b', marginBottom: '1.5rem', fontWeight: 'bold' }}>{PROFILE.role}</p>
@@ -85,11 +84,11 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* 💳 Works & Hackathons（カード複数） */}
+        {/* 💳 Products（カード複数） */}
         <section>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.5rem' }}>
             <span style={{ fontSize: '1.8rem' }}>🚀</span>
-            <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#1e293b' }}>Works & Hackathons</h2>
+            <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#1e293b' }}>Products</h2>
           </div>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -101,7 +100,6 @@ export default function Portfolio() {
                   {/* ★ここから: 画像がある場合のみ表示する処理を追加 */}
                   {project.imageUrl && (
                     <div style={{ marginBottom: '1.5rem' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img 
                         src={project.imageUrl} 
                         alt={`${project.title}のスクリーンショット`}

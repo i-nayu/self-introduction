@@ -3,6 +3,12 @@
 このテンプレートは、ViteでReactを動作させるための最小構成です。
 HMR（ホットリロード）と基本的なESLint設定が含まれています。
 
+## 掲載情報
+
+プロフィール、スキル、制作物はそれぞれ `src/data/profile.ts`、`src/data/skills.ts`、`src/data/products.ts` で管理します。データの型は `src/types/content.ts` にあります。現在の標準表示（v1）はこれらのデータを参照します。
+
+Backendの掲載技術、gagaku_welcomeの説明・使用技術、RemiCalの使用技術は未確認のため空欄です。確認できた内容だけを追記してください。
+
 ---
 
 ## 🚀 アプリのバージョン切り替え
