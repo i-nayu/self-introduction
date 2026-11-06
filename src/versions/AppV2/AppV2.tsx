@@ -49,7 +49,6 @@ export default function Portfolio() {
       
       {/* ▼ ヘッダー ▼ */}
       <header className="header-section">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={PROFILE.avatarUrl} alt="Profile Avatar" className="profile-avatar" />
         <h1 style={{ fontSize: '2rem', margin: '0 0 0.5rem 0', color: '#1e293b' }}>{PROFILE.name}</h1>
         <p style={{ color: '#64748b', marginBottom: '1.5rem', fontWeight: 'bold' }}>{PROFILE.role}</p>
@@ -101,7 +100,6 @@ export default function Portfolio() {
                   {/* ★ここから: 画像がある場合のみ表示する処理を追加 */}
                   {project.imageUrl && (
                     <div style={{ marginBottom: '1.5rem' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img 
                         src={project.imageUrl} 
                         alt={`${project.title}のスクリーンショット`}
