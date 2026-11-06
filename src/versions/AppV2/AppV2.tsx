@@ -4,7 +4,7 @@ import './AppV2.css'; // ★CSSを読み込む
 // データの定義
 const PROFILE = {
   name: "nayu",
-  role: "立命館大学 RiST ",
+  role: "立命館大学",
   avatarUrl: "../../../public/IMG_2510.JPG", 
   xUrl: "https://twitter.com/nayu4201",
   githubUrl: "https://github.com/i-nayu",
@@ -84,11 +84,11 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* 💳 Works & Hackathons（カード複数） */}
+        {/* 💳 Products（カード複数） */}
         <section>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.5rem' }}>
             <span style={{ fontSize: '1.8rem' }}>🚀</span>
-            <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#1e293b' }}>Works & Hackathons</h2>
+            <h2 style={{ fontSize: '1.5rem', margin: 0, color: '#1e293b' }}>Products</h2>
           </div>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
