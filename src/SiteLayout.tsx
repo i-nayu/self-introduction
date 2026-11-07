@@ -5,6 +5,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'Profile' },
   { to: '/skills', label: 'Skills' },
+  { to: '/products', label: 'Products' },
 ];
 
 export default function SiteLayout() {
