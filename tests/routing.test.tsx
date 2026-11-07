@@ -70,6 +70,9 @@ describe('サイトのルート', () => {
 
   it('不明な URL と廃止した詳細URLには案内画面を表示する', () => {
     expect(renderAt('/unknown')).toContain('ページが見つかりません');
-    expect(renderAt('/products/arrow')).toContain('ページが見つかりません');
+    expect(renderAt('/products/unknown')).toContain('ページが見つかりません');
+    for (const product of PRODUCTS) {
+      expect(renderAt(`/products/${product.slug}`)).toContain('ページが見つかりません');
+    }
   });
 });
