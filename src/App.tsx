@@ -1,19 +1,19 @@
-import {
-  APP_VERSIONS,
-  DEFAULT_APP_VERSION,
-  isAppVersion,
-} from "./appVersions";
-
-const getVersionFromQuery = () => {
-  const version = new URLSearchParams(window.location.search).get("v");
-  if (version && isAppVersion(version)) {
-    return version;
-  }
-  return DEFAULT_APP_VERSION;
-};
+import { Route, Routes } from 'react-router-dom';
+import SiteLayout from './SiteLayout';
+import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import ProfilePage from './pages/ProfilePage';
+import SkillsPage from './pages/SkillsPage';
 
 export default function App() {
-  const version = getVersionFromQuery();
-  const SelectedVersion = APP_VERSIONS[version];
-  return <SelectedVersion />;
+  return (
+    <Routes>
+      <Route element={<SiteLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="about" element={<ProfilePage />} />
+        <Route path="skills" element={<SkillsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
 }
