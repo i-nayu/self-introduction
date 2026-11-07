@@ -29,17 +29,47 @@ describe('サイトのルート', () => {
     expect(renderAt('/skills')).toContain('<h1>Skills</h1>');
   });
 
-  it('Products 一覧と全作品の詳細を表示する', () => {
+  it('Products 一覧に全作品のカードを表示する', () => {
     const listHtml = renderAt('/products');
+    const cards = [...listHtml.matchAll(/<article class="product-card">([\s\S]*?)<\/article>/g)]
+      .map((match) => match[1]);
 
+    expect(cards).toHaveLength(PRODUCTS.length);
+    expect(listHtml.match(/注目作品/g)).toHaveLength(3);
     for (const product of PRODUCTS) {
-      expect(listHtml).toContain(`href="/products/${product.slug}"`);
-      expect(renderAt(`/products/${product.slug}`)).toContain(product.title);
+      const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
+      expect(card).toBeDefined();
+      expect(card).not.toContain(`href="/products/${product.slug}"`);
+      expect(card).toContain(`src="${product.imageUrl}"`);
+      expect(card).toContain(product.description || '紹介文は準備中です。');
+      for (const technology of product.technologies) {
+        expect(card).toContain(technology);
+      }
+      if (product.siteUrl) {
+        expect(card).toContain(`href="${product.siteUrl}"`);
+      } else {
+        expect(card).not.toContain('公開サイト ↗');
+      }
+      if (product.githubUrl) {
+        expect(card).toContain(`href="${product.githubUrl}"`);
+      } else {
+        expect(card).not.toContain('GitHub ↗');
+      }
     }
   });
 
-  it('不明な URL と slug には案内画面を表示する', () => {
+  it('技術が未登録の作品に架空の技術を表示しない', () => {
+    const html = renderAt('/products');
+    const card = [...html.matchAll(/<article class="product-card">([\s\S]*?)<\/article>/g)]
+      .map((match) => match[1])
+      .find((item) => item.includes('<h2>gagaku_welcome（個人開発）</h2>'));
+    expect(card).toBeDefined();
+    expect(card).not.toContain('aria-label="使用技術"');
+    expect(card).toContain('公開サイト ↗');
+  });
+
+  it('不明な URL と廃止した詳細URLには案内画面を表示する', () => {
     expect(renderAt('/unknown')).toContain('ページが見つかりません');
-    expect(renderAt('/products/unknown')).toContain('ページが見つかりません');
+    expect(renderAt('/products/arrow')).toContain('ページが見つかりません');
   });
 });
