@@ -17,6 +17,11 @@ function renderAt(path: string) {
   );
 }
 
+function productCards(html: string) {
+  return [...html.matchAll(/<article class="product-card">([\s\S]*?)<\/article>/g)]
+    .map((match) => match[1]);
+}
+
 describe('サイトのルート', () => {
   it('Home にターミナルの配置と共通ナビゲーションを表示する', () => {
     const html = renderAt('/');
@@ -29,17 +34,51 @@ describe('サイトのルート', () => {
     expect(renderAt('/skills')).toContain('<h1>Skills</h1>');
   });
 
-  it('Products 一覧と全作品の詳細を表示する', () => {
+  it('Products 一覧に全作品のカードを表示する', () => {
     const listHtml = renderAt('/products');
+    const cards = productCards(listHtml);
 
+    expect(cards).toHaveLength(PRODUCTS.length);
     for (const product of PRODUCTS) {
-      expect(listHtml).toContain(`href="/products/${product.slug}"`);
-      expect(renderAt(`/products/${product.slug}`)).toContain(product.title);
+      const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
+      expect(card).toBeDefined();
+      expect(card?.includes('class="product-card-featured"')).toBe(product.featured);
+      expect(card).not.toContain(`href="/products/${product.slug}"`);
+      expect(card).toContain(`src="${product.imageUrl}"`);
+      expect(card).toContain(product.description || '紹介文は準備中です。');
+      for (const technology of product.technologies) {
+        expect(card).toContain(technology);
+      }
+      if (product.siteUrl) {
+        expect(card).toContain(`href="${product.siteUrl}"`);
+      } else {
+        expect(card).not.toContain('公開サイト ↗');
+      }
+      if (product.githubUrl) {
+        expect(card).toContain(`href="${product.githubUrl}"`);
+      } else {
+        expect(card).not.toContain('GitHub ↗');
+      }
     }
   });
 
-  it('不明な URL と slug には案内画面を表示する', () => {
+  it('技術が未登録の作品に技術欄を表示しない', () => {
+    const cards = productCards(renderAt('/products'));
+    const productsWithoutTechnologies = PRODUCTS.filter((product) => product.technologies.length === 0);
+
+    expect(productsWithoutTechnologies.length).toBeGreaterThan(0);
+    for (const product of productsWithoutTechnologies) {
+      const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
+      expect(card).toBeDefined();
+      expect(card).not.toContain('aria-label="使用技術"');
+    }
+  });
+
+  it('不明な URL と廃止した詳細URLには案内画面を表示する', () => {
     expect(renderAt('/unknown')).toContain('ページが見つかりません');
     expect(renderAt('/products/unknown')).toContain('ページが見つかりません');
+    for (const product of PRODUCTS) {
+      expect(renderAt(`/products/${product.slug}`)).toContain('ページが見つかりません');
+    }
   });
 });
