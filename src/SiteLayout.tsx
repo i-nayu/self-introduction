@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import './site.css';
 
 const links = [
   { to: '/', label: 'Home' },
