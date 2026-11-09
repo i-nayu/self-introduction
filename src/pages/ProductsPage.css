@@ -1,0 +1,60 @@
+.products-intro {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 2rem;
+  border: 1px solid #bae6fd;
+  border-radius: 1rem;
+  background: linear-gradient(125deg, #fff 25%, #e0f2fe 100%);
+}
+
+.products-intro::after {
+  content: '';
+  position: absolute;
+  width: 15rem;
+  height: 15rem;
+  right: -5rem;
+  top: -7rem;
+  border: 1px solid #bae6fd;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.product-eyebrow {
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.products-intro h1 {
+  margin: 0 0 0.75rem;
+}
+
+.products-intro > p:not(.product-eyebrow) {
+  max-width: 35rem;
+  color: #365572;
+}
+
+.products-count {
+  display: inline-block;
+  margin-top: 1rem;
+  padding-top: 0.65rem;
+  border-top: 2px solid #38bdf8;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}

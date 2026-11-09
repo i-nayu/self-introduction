@@ -1,10 +1,8 @@
+/* ヘッダー・共通レイアウト */
 .site-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f0f9ff;
-  color: #183153;
-  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
 }
 
 .site-header {
@@ -119,27 +117,6 @@
   font-size: 1.2rem;
 }
 
-.site-profile {
-  display: grid;
-  grid-template-columns: minmax(120px, 220px) 1fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-.site-profile img {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 0.75rem;
-  object-fit: cover;
-}
-
-.site-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
 .site-tags {
   display: flex;
   flex-wrap: wrap;
@@ -156,166 +133,11 @@
   color: #183153;
 }
 
-.products-intro {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(2rem, 5vw, 3.5rem);
-  margin-bottom: 2rem;
-  border: 1px solid #bae6fd;
-  border-radius: 1rem;
-  background: linear-gradient(125deg, #fff 25%, #e0f2fe 100%);
-}
-
-.products-intro::after {
-  content: '';
-  position: absolute;
-  width: 15rem;
-  height: 15rem;
-  right: -5rem;
-  top: -7rem;
-  border: 1px solid #bae6fd;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.product-eyebrow {
+.site-eyebrow {
   color: #1d4ed8;
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.products-intro h1 {
-  margin: 0 0 0.75rem;
-}
-
-.products-intro > p:not(.product-eyebrow) {
-  max-width: 35rem;
-  color: #365572;
-}
-
-.products-count {
-  display: inline-block;
-  margin-top: 1rem;
-  padding-top: 0.65rem;
-  border-top: 2px solid #38bdf8;
-  color: #1d4ed8;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
-}
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid #bae6fd;
-  border-radius: 1rem;
-  background: #fff;
-}
-
-.product-card:hover,
-.product-card:focus-within {
-  border-color: #38bdf8;
-  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.1);
-}
-
-.product-card-links a:focus-visible {
-  outline: 3px solid #1d4ed8;
-  outline-offset: 3px;
-}
-
-.product-card-media {
-  display: flex;
-  aspect-ratio: 16 / 10;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background: linear-gradient(145deg, #f0f9ff, #bae6fd);
-}
-
-.product-card-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.product-card-content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 1.5rem;
-}
-
-.product-card-featured {
-  margin-bottom: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  background: #bae6fd;
-  color: #1d4ed8;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.product-card-content h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1.25rem;
-  line-height: 1.4;
-}
-
-.site-page .product-card-description {
-  margin: 0;
-  color: #365572;
-  font-size: 0.94rem;
-}
-
-.product-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0;
-  margin: 1rem 0 0;
-  list-style: none;
-}
-
-.product-card-tags li {
-  padding: 0.25rem 0.55rem;
-  border-radius: 0.35rem;
-  background: #f0f9ff;
-  color: #365572;
-  font-size: 0.75rem;
-}
-
-.product-card-links {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  padding-top: 1.25rem;
-  margin-top: auto;
-}
-
-.product-card-links a {
-  display: inline-block;
-  padding: 0.55rem 0.8rem;
-  border: 1px solid #1d4ed8;
-  border-radius: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.product-card-links a:hover {
-  background: #f0f9ff;
+  font-weight: 800;
+  letter-spacing: 0.16em;
 }
 
 .site-footer {
@@ -330,17 +152,5 @@
   .site-header-inner {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .site-profile {
-    grid-template-columns: 1fr;
-  }
-
-  .site-profile img {
-    max-width: 180px;
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
   }
 }

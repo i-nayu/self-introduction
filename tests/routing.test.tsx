@@ -3,9 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import App from '../src/App';
 import { PRODUCTS } from '../src/data/products';
+import { PROFILE } from '../src/data/profile';
 
 // xterm はブラウザ専用のため、Node でのルート表示テストでは差し替える。
-vi.mock('../src/versions/Terminal/Terminal', () => ({
+vi.mock('../src/components/Terminal/Terminal', () => ({
   default: () => <div className="Terminal-wrapper" />,
 }));
 
@@ -23,15 +24,44 @@ function productCards(html: string) {
 }
 
 describe('サイトのルート', () => {
-  it('Home にターミナルの配置と共通ナビゲーションを表示する', () => {
+  it('Home にターミナルと主要ページへの導線を表示する', () => {
     const html = renderAt('/');
     expect(html).toContain('Terminal-wrapper');
     expect(html).toContain('メインナビゲーション');
+    expect(html).toContain('href="/about"');
+    expect(html).toContain('href="/products"');
+    expect(html).toContain(PROFILE.about);
+    expect(html).not.toContain('View Works');
+    expect(html).not.toContain('RiST');
+  });
+
+  it('Home に注目作品だけを表示する', () => {
+    const cards = productCards(renderAt('/'));
+    const featuredProducts = PRODUCTS.filter((product) => product.featured);
+
+    expect(cards).toHaveLength(featuredProducts.length);
+    for (const product of PRODUCTS) {
+      const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
+      expect(card !== undefined).toBe(product.featured);
+    }
   });
 
   it('Profile と Skills を表示する', () => {
     expect(renderAt('/about')).toContain('<h1>Profile</h1>');
     expect(renderAt('/skills')).toContain('<h1>Skills</h1>');
+  });
+
+  it('Profile に写真、所属、興味分野、SNSリンクを表示する', () => {
+    const html = renderAt('/about');
+
+    expect(html).toContain(`src="${PROFILE.avatarUrl}"`);
+    expect(html).toContain(PROFILE.affiliation);
+    expect(html).toContain(PROFILE.about);
+    for (const interest of PROFILE.interests) {
+      expect(html).toContain(interest);
+    }
+    expect(html).toContain(`href="${PROFILE.xUrl}"`);
+    expect(html).toContain(`href="${PROFILE.githubUrl}"`);
   });
 
   it('Products 一覧に全作品のカードを表示する', () => {

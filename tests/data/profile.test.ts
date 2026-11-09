@@ -14,6 +14,14 @@ describe('プロフィールデータ', () => {
     expect(existsSync(new URL(`../../public${PROFILE.avatarUrl}`, import.meta.url))).toBe(true)
   })
 
+  test('興味分野が空でなく、重複しない', () => {
+    expect(PROFILE.interests.length).toBeGreaterThan(0)
+    expect(new Set(PROFILE.interests).size).toBe(PROFILE.interests.length)
+    for (const interest of PROFILE.interests) {
+      expect(interest.trim()).not.toBe('')
+    }
+  })
+
   test('SNSリンクはHTTPSである', () => {
     expect(new URL(PROFILE.xUrl).protocol).toBe('https:')
     expect(new URL(PROFILE.githubUrl).protocol).toBe('https:')

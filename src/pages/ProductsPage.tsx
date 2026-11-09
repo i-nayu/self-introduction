@@ -1,5 +1,6 @@
 import ProductCard from '../components/ProductCard';
 import { PRODUCTS } from '../data/products';
+import './ProductsPage.css';
 
 export default function ProductsPage() {
   return (
