@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import App from '../src/App';
 import { PRODUCTS } from '../src/data/products';
 import { PROFILE } from '../src/data/profile';
+import { SKILL_GROUPS } from '../src/data/skills';
 
 // xterm はブラウザ専用のため、Node でのルート表示テストでは差し替える。
 vi.mock('../src/components/Terminal/Terminal', () => ({
@@ -19,7 +20,12 @@ function renderAt(path: string) {
 }
 
 function productCards(html: string) {
-  return [...html.matchAll(/<article class="product-card">([\s\S]*?)<\/article>/g)]
+  return [...html.matchAll(/<article class="product-card"[^>]*>([\s\S]*?)<\/article>/g)]
+    .map((match) => match[1]);
+}
+
+function skillSections(html: string) {
+  return [...html.matchAll(/<section class="skills-category"[^>]*>([\s\S]*?)<\/section>/g)]
     .map((match) => match[1]);
 }
 
@@ -51,6 +57,43 @@ describe('サイトのルート', () => {
     expect(renderAt('/skills')).toContain('<h1>Skills</h1>');
   });
 
+  it('Skills にカテゴリと確認済みの技術を表示し、未確認の Backend は空欄にする', () => {
+    const sections = skillSections(renderAt('/skills'));
+
+    expect(sections).toHaveLength(SKILL_GROUPS.length);
+    for (const group of SKILL_GROUPS) {
+      const section = sections.find((item) => item.includes(`<h2 id="skills-${group.id}">${group.label}</h2>`));
+      expect(section).toBeDefined();
+      expect(section).toContain(group.description);
+      for (const skill of group.skills) {
+        expect(section).toContain(`<li>${skill}</li>`);
+      }
+      if (group.skills.length === 0) {
+        expect(section).toContain('準備中…');
+        expect(section).not.toContain('関連するProducts');
+      }
+    }
+  });
+
+  it('Skills から実際に使用技術が一致する Product にだけリンクする', () => {
+    const sections = skillSections(renderAt('/skills'));
+
+    for (const group of SKILL_GROUPS) {
+      const section = sections.find((item) => item.includes(`<h2 id="skills-${group.id}">${group.label}</h2>`));
+      expect(section).toBeDefined();
+      for (const product of PRODUCTS) {
+        const matchedSkills = group.skills.filter((skill) => product.technologies.includes(skill));
+        const link = `href="/products#product-${product.slug}"`;
+        if (matchedSkills.length > 0) {
+          expect(section).toContain(link);
+          expect(section).toContain(matchedSkills.join(' / '));
+        } else {
+          expect(section).not.toContain(link);
+        }
+      }
+    }
+  });
+
   it('Profile に写真、所属、興味分野、SNSリンクを表示する', () => {
     const html = renderAt('/about');
 
@@ -72,6 +115,7 @@ describe('サイトのルート', () => {
     for (const product of PRODUCTS) {
       const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
       expect(card).toBeDefined();
+      expect(listHtml).toContain(`id="product-${product.slug}"`);
       expect(card?.includes('class="product-card-featured"')).toBe(product.featured);
       expect(card).not.toContain(`href="/products/${product.slug}"`);
       expect(card).toContain(`src="${product.imageUrl}"`);
