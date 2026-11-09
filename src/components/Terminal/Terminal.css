@@ -1,8 +1,8 @@
-/* 1. 外側の枠（一番外側） */
+/* ターミナルの外枠 */
 .Terminal-wrapper {
-    width: 350px !important;
+    width: 100%;
     height: 300px !important;
-    background: #0f172a;
+    background: #0f2537;
     border-radius: 16px;
     /* 枠の角丸 */
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
@@ -17,7 +17,7 @@
 /* 2. 内側の枠（xtermのマウント先） */
 .Terminal-container {
     width: 100% !important;
-    height: 350px !important;
+    height: 100% !important;
     /* 念のためここにもhidden */
     overflow: hidden;
     border-radius: 20px;
@@ -27,7 +27,7 @@
 .xterm,
 .xterm-viewport,
 .xterm-screen {
-    background-color: #0f172a !important;
+    background-color: #0f2537 !important;
     /* xterm自体が独自のpaddingやmarginを持って角丸を突き破るのを防ぐ */
     border-radius: 16px !important;
 }

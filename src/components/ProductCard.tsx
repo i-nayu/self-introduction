@@ -1,4 +1,5 @@
 import type { Product } from '../types/content';
+import './ProductCard.css';
 
 interface ProductCardProps {
   product: Product;

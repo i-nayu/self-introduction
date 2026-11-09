@@ -1,0 +1,262 @@
+.home-page {
+  max-width: 1126px;
+  padding-top: 2.5rem;
+}
+
+.home-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  border: 1px solid #bae6fd;
+  border-radius: 1.5rem;
+  background: linear-gradient(130deg, #f0f9ff 12%, #bae6fd 64%, #e5f6ff 100%);
+}
+
+.home-hero::before,
+.home-hero::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.home-hero::before {
+  width: 34rem;
+  height: 34rem;
+  top: -21rem;
+  right: -9rem;
+  border: 1px solid rgba(29, 78, 216, 0.18);
+  border-radius: 50%;
+}
+
+.home-hero::after {
+  width: 24rem;
+  height: 1px;
+  right: -5rem;
+  bottom: 3rem;
+  transform: rotate(-25deg);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -0.6rem 0 rgba(255, 255, 255, 0.5);
+}
+
+.home-hero > * {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.site-page .home-hero h1 {
+  margin: 1.1rem 0 1.5rem;
+  font-size: clamp(2.4rem, 4.8vw, 4.2rem);
+  line-height: 1.22;
+  letter-spacing: -0.045em;
+}
+
+.home-hero h1 span {
+  display: block;
+  color: #1d4ed8;
+}
+
+.site-page .home-hero-lead {
+  max-width: 31rem;
+  margin-bottom: 1.75rem;
+  color: #365572;
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.site-page .home-button {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid #1d4ed8;
+  border-radius: 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-page .home-button-primary {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.site-page .home-button-primary:hover {
+  background: #183fae;
+}
+
+.site-page .home-button-secondary {
+  background: rgba(255, 255, 255, 0.72);
+  color: #1d4ed8;
+}
+
+.site-page .home-button-secondary:hover {
+  background: #fff;
+}
+
+.site-page .home-button:focus-visible,
+.site-page .home-text-link:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 3px;
+}
+
+.site-page .home-hero-affiliation {
+  margin: 1.75rem 0 0;
+  color: #365572;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.home-terminal {
+  overflow: hidden;
+  border: 1px solid rgba(15, 37, 55, 0.18);
+  border-radius: 1rem;
+  background: #0f2537;
+  box-shadow: 0 22px 45px rgba(15, 37, 55, 0.18);
+}
+
+.home-terminal-bar {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: #bae6fd;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.home-terminal-dots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.home-terminal-dots i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #60a5fa;
+}
+
+.home-terminal-dots i:nth-child(2) {
+  background: #38bdf8;
+}
+
+.home-terminal-dots i:nth-child(3) {
+  background: #bae6fd;
+}
+
+.home-terminal .Terminal-wrapper {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.home-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 2rem;
+  padding: 4rem 0;
+  border-bottom: 1px solid #bae6fd;
+}
+
+.site-page .home-intro h2,
+.site-page .home-section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  letter-spacing: -0.03em;
+}
+
+.site-page .home-intro-body p {
+  color: #365572;
+}
+
+.site-page .home-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.site-page .home-text-link:hover {
+  color: #183fae;
+}
+
+.home-featured {
+  padding-top: 4rem;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.site-page .home-section-heading p:last-child {
+  margin: 0.75rem 0 0;
+  color: #365572;
+}
+
+.home-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.home-featured-grid .product-card-content {
+  padding: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .home-featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .home-page {
+    padding-top: 1.5rem;
+  }
+
+  .home-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro,
+  .home-featured {
+    padding-top: 3rem;
+  }
+
+  .home-intro {
+    padding-bottom: 3rem;
+  }
+
+  .home-section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .home-featured-grid {
+    grid-template-columns: 1fr;
+  }
+}

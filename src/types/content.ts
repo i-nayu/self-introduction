@@ -3,6 +3,7 @@ export interface Profile {
   affiliation: string;
   avatarUrl: string;
   about: string;
+  interests: readonly string[];
   xUrl: string;
   githubUrl: string;
 }
