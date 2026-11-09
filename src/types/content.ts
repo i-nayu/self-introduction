@@ -13,6 +13,7 @@ export type SkillCategory = 'frontend' | 'backend' | 'other';
 export interface SkillGroup {
   id: SkillCategory;
   label: string;
+  description: string;
   skills: readonly string[];
 }
 

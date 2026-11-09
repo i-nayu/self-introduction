@@ -3,11 +3,12 @@ import './ProductCard.css';
 
 interface ProductCardProps {
   product: Product;
+  anchorId?: string;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, anchorId }: ProductCardProps) {
   return (
-    <article className="product-card">
+    <article className="product-card" id={anchorId} tabIndex={anchorId ? -1 : undefined}>
       <div className="product-card-media">
         <img
           src={product.imageUrl}
