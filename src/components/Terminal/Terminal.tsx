@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Terminal as XtermTerminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { executeCommand } from './terminalCommands';
+import { redrawCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
 import { backspaceAtCursor, browseHistory, insertAtCursor, moveCursor, printableInput } from './terminalInput';
 import 'xterm/css/xterm.css';
 import './Terminal.css';
@@ -33,45 +34,70 @@ export default function Terminal() {
     term.open(terminalRef.current);
     fitAddon.fit();
 
-    const prompt = () => {
-      term.write('\r\n> ');
+    // xterm の write は非同期なので、表示位置を読む処理も描画順に実行する。
+    let disposed = false;
+
+    //描画が終わるまで待つ
+    const write = (value: string) => new Promise<void>((resolve) => {
+      if (disposed) {
+        resolve();
+        return;
+      }
+      term.write(value, resolve);
+    });
+    let pendingWrite = Promise.resolve();
+
+    // 描画順に処理を実行するためのキューイング関数
+    const enqueue = (operation: () => Promise<void>) => {
+      pendingWrite = pendingWrite.then(async () => {
+        if (!disposed) await operation();
+      });
     };
 
-    // 入力中のコマンドを表示する関数
+    // 現在の入力内容を、カーソル位置を保ったままターミナルに描き直す
     const showInput = () => {
-      const characters = [...commandBuffer.current];
-      const beforeCursor = characters.slice(0, cursorIndex.current).join('');
-      const afterCursor = characters.slice(cursorIndex.current).join('');
-      term.write(`\x1b[2K\r> ${beforeCursor}\x1b[s${afterCursor}\x1b[u`);
+      const value = commandBuffer.current;
+      const caretIndex = cursorIndex.current;
+
+      enqueue(async () => {
+        const buffer = term.buffer.active;
+        const currentRow = buffer.baseY + buffer.cursorY;
+        // カーソルが折り返し先にあっても、入力の先頭行まで戻る。
+        const rowsBeforePrompt = wrappedRowsBeforePrompt(
+          currentRow,
+          (row) => buffer.getLine(row)?.isWrapped ?? false,
+        );
+        await write(redrawCommand(value, caretIndex, rowsBeforePrompt));
+      });
     };
 
-    term.writeln('Welcome to my portfolio!');
-    term.writeln('Type "help" for available commands.');
-    term.write('> ');
+    enqueue(() => write('Welcome to my portfolio!\r\nType "help" for available commands.\r\n> '));
 
     //キー入力を受け付ける
     const inputSubscription = term.onData((data) => {
       // Enterキーが押された場合、コマンドを実行する
       if (data === '\r' || data === '\n') {
-        term.write('\r\n');
         const result = executeCommand(commandBuffer.current, commandHistory.current);
         commandHistory.current = result.history;
-        for (const line of result.lines) term.writeln(line);
+
+        enqueue(async () => {
+          await write('\r\n');
+          for (const line of result.lines) await write(`${line}\r\n`);
+          if (result.action?.type === 'clear') term.clear();
+          await write('\r\n> ');
+        });
 
         // コマンドの実行結果に応じてアクションを実行する
         if (result.action?.type === 'navigate') {
           navigate(result.action.path);
         } else if (result.action?.type === 'open') {
           window.open(result.action.url, '_blank', 'noopener,noreferrer');
-        } else if (result.action?.type === 'clear') {
-          term.clear();
         }
 
         // 実行後は入力と履歴の選択位置をリセットする
         commandBuffer.current = '';
         cursorIndex.current = 0;
         historyIndex.current = null;
-        prompt();
         return;
       }
 
@@ -124,6 +150,7 @@ export default function Terminal() {
     resizeObserver.observe(terminalRef.current);
 
     return () => {
+      disposed = true;
       resizeObserver.disconnect();
       inputSubscription.dispose();
       term.dispose();
