@@ -1,24 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Terminal } from 'xterm';
+import { Terminal as XtermTerminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import { PROFILE } from '../../data/profile';
+import { executeCommand } from './terminalCommands';
+import { redrawCommand, submitCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
+import { backspaceAtCursor, browseHistory, insertAtCursor, moveCursor, printableInput } from './terminalInput';
 import 'xterm/css/xterm.css';
 import './Terminal.css';
 
-const TerminalComponent: React.FC = () => {
+export default function Terminal() {
   const navigate = useNavigate();
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const termRef = useRef<Terminal | null>(null);
-  // 入力中の文字列を保持するためのRef（Stateだと再レンダリングで入力が遅れるため）
-  const commandBuffer = useRef<string>('');
-  const commandHistory = useRef<string[]>([]);
-  const historyIndex = useRef<number | null>(null);
+  const terminalRef = useRef<HTMLDivElement>(null); //ターミナルをいれるdivのref
+  const commandBuffer = useRef<string>(''); // 現在のコマンド入力を保持する
+  const cursorIndex = useRef<number>(0); // 入力中の文字列内でのカーソル位置
+  const commandHistory = useRef<string[]>([]); // コマンド履歴を保持する
+  const historyIndex = useRef<number | null>(null); // 履歴のどの位置にいるかを保持する
 
+  //ターミナルの描画
   useEffect(() => {
     if (!terminalRef.current) return;
 
-    const term = new Terminal({
+    const term = new XtermTerminal({
       cursorBlink: true,
       rows: 20,
       cols: 80,
@@ -27,172 +29,131 @@ const TerminalComponent: React.FC = () => {
         background: '#0f2537',
       }
     });
-    termRef.current = term;
-
     const fitAddon = new FitAddon();
     term.loadAddon(fitAddon);
     term.open(terminalRef.current);
     fitAddon.fit();
 
-    // プロンプトを表示する関数
-    const prompt = () => {
-      term.write('\r\n> ');
+    // xterm の write は非同期なので、表示位置を読む処理も描画順に実行する。
+    let disposed = false;
+
+    //描画が終わるまで待つ
+    const write = (value: string) => new Promise<void>((resolve) => {
+      if (disposed) {
+        resolve();
+        return;
+      }
+      term.write(value, resolve);
+    });
+    let pendingWrite = Promise.resolve();
+
+    // 描画順に処理を実行するためのキューイング関数
+    const enqueue = (operation: () => Promise<void>) => {
+      pendingWrite = pendingWrite.then(async () => {
+        if (!disposed) await operation();
+      });
     };
 
-    // 初期表示
-    term.writeln('Welcome to my portfolio!');
-    term.writeln('Type "help" for available commands.');
-    term.write('> ');
+    // カーソルが折り返し先にあっても、入力の先頭行まで戻る行数を求める。
+    const rowsBeforePrompt = () => {
+      const buffer = term.buffer.active;
+      const currentRow = buffer.baseY + buffer.cursorY;
+      return wrappedRowsBeforePrompt(
+        currentRow,
+        (row) => buffer.getLine(row)?.isWrapped ?? false,
+      );
+    };
 
-    // 入力イベントの制御
-    term.onData((data) => {
-      const code = data.charCodeAt(0);
+    // 現在の入力内容を、カーソル位置を保ったままターミナルに描き直す
+    const showInput = () => {
+      const value = commandBuffer.current;
+      const caretIndex = cursorIndex.current;
+      enqueue(() => write(redrawCommand(value, caretIndex, rowsBeforePrompt())));
+    };
 
-      if (code === 13) { // Enter
-        const input = commandBuffer.current.trim();
-        term.write('\r\n');
-        if (input.length > 0) {
-          handleCommand(input, term);
+    enqueue(() => write('Welcome to my portfolio!\r\nType "help" for available commands.\r\n> '));
+
+    //キー入力を受け付ける
+    const inputSubscription = term.onData((data) => {
+      // Enterキーが押された場合、コマンドを実行する
+      if (data === '\r' || data === '\n') {
+        const value = commandBuffer.current;
+        const result = executeCommand(value, commandHistory.current);
+        commandHistory.current = result.history;
+
+        enqueue(async () => {
+          await write(submitCommand(value, rowsBeforePrompt()));
+          for (const line of result.lines) await write(`${line}\r\n`);
+          if (result.action?.type === 'clear') term.clear();
+          await write('\r\n> ');
+        });
+
+        // コマンドの実行結果に応じてアクションを実行する
+        if (result.action?.type === 'navigate') {
+          navigate(result.action.path);
+        } else if (result.action?.type === 'open') {
+          window.open(result.action.url, '_blank', 'noopener,noreferrer');
         }
+
+        // 実行後は入力と履歴の選択位置をリセットする
         commandBuffer.current = '';
-        historyIndex.current = null; // Enterで履歴位置をリセット
-        prompt();
+        cursorIndex.current = 0;
+        historyIndex.current = null;
+        return;
+      }
 
-      } else if (code === 127) { // Backspace
-        if (commandBuffer.current.length > 0) {
-          commandBuffer.current = commandBuffer.current.slice(0, -1);
-          term.write('\b \b');
+      // Backspaceキーが押された場合、カーソルの直前の文字を削除する
+      if (data === '\x7f' || data === '\b') {
+        if (cursorIndex.current > 0) {
+          const edited = backspaceAtCursor(commandBuffer.current, cursorIndex.current);
+          commandBuffer.current = edited.value;
+          cursorIndex.current = edited.cursorIndex;
+          showInput();
         }
+        return;
+      }
 
-      } else if (data === '\x1b[A') { // ↑キー
-        if (commandHistory.current.length === 0) return;
-        if (historyIndex.current === null) {
-          historyIndex.current = commandHistory.current.length - 1;
-        } else if (historyIndex.current > 0) {
-          historyIndex.current -= 1;
+      // 左右矢印キーで入力中のカーソルを移動する
+      if (data === '\x1b[D' || data === '\x1b[C') {
+        const direction = data === '\x1b[D' ? 'left' : 'right';
+        cursorIndex.current = moveCursor(commandBuffer.current, cursorIndex.current, direction);
+        showInput();
+        return;
+      }
+
+      // 上矢印キーまたは下矢印キーが押された場合、履歴を参照する
+      if (data === '\x1b[A' || data === '\x1b[B') {
+        const direction = data === '\x1b[A' ? 'previous' : 'next';
+        const selection = browseHistory(commandHistory.current, historyIndex.current, direction);
+        if (selection) {
+          historyIndex.current = selection.index;
+          commandBuffer.current = selection.value;
+          cursorIndex.current = [...selection.value].length;
+          showInput();
         }
-        // 現在の入力を消して履歴を表示
-        term.write('\x1b[2K\r> ' + commandHistory.current[historyIndex.current]);
-        commandBuffer.current = commandHistory.current[historyIndex.current];
+        return;
+      }
 
-      } else if (data === '\x1b[B') { // ↓キー
-        if (commandHistory.current.length === 0 || historyIndex.current === null) return;
-        if (historyIndex.current < commandHistory.current.length - 1) {
-          historyIndex.current += 1;
-          term.write('\x1b[2K\r> ' + commandHistory.current[historyIndex.current]);
-          commandBuffer.current = commandHistory.current[historyIndex.current];
-        } else {
-          // 履歴の最後なら空にする
-          historyIndex.current = null;
-          term.write('\x1b[2K\r> ');
-          commandBuffer.current = '';
-        }
-
-      } else if (code < 32) {
-        // その他の制御文字は無視
-      } else {
-        // 通常文字
-        commandBuffer.current += data;
-        term.write(data);
+      // その他の入力は文字として処理する
+      const printable = printableInput(data);
+      if (printable) {
+        const edited = insertAtCursor(commandBuffer.current, cursorIndex.current, printable);
+        commandBuffer.current = edited.value;
+        cursorIndex.current = edited.cursorIndex;
+        showInput();
       }
     });
 
-    // コマンド判定ロジック
-    const handleCommand = (cmd: string, t: Terminal) => {
-      const trimmedCmd = cmd.trim();
-      const lowerCmd = trimmedCmd.toLowerCase();
-      const [baseCmd, ...args] = lowerCmd.split(/\s+/);
-
-      if (trimmedCmd.length > 0) {
-        commandHistory.current.push(trimmedCmd);
-      }
-
-      // 'help' コマンド: コマンド一覧表示
-      if (baseCmd === 'help') {
-        t.writeln('Available commands: help, hello, cd, ls, echo, history, open, clear');
-        t.writeln('cd <about|skills|products>');
-        t.writeln('open <x|github>');
-
-        // 'hello' コマンド: 挨拶表示
-      } else if (baseCmd === 'hello') {
-        t.writeln('Hello!');
-
-        // 'cd' コマンド: 対応するページへ移動
-      } else if (baseCmd === 'cd') {
-        const target = args[0];
-        const pageMap: Record<string, string> = {
-          about: '/about',
-          skills: '/skills',
-          products: '/products',
-        };
-
-        if (!target) {
-          t.writeln('Usage: cd <about|skills|products>');
-        } else {
-          const pagePath = pageMap[target];
-
-          if (!pagePath) {
-            t.writeln(`Page not found: ${target}`);
-          } else {
-            t.writeln(`Opening ${target}...`);
-            navigate(pagePath);
-          }
-        }
-
-        // 'ls' コマンド: ページ一覧を表示
-      } else if (baseCmd === 'ls') {
-        t.writeln("👤 About Me");
-        t.writeln("💻 Skills");
-        t.writeln("🚀 Products");
-
-        // 'echo' コマンド: 入力された内容を復唱
-      } else if (baseCmd === 'echo') {
-        t.writeln(trimmedCmd.slice(5)); // "echo "以降の文字列を表示
-
-        // 'history' コマンド: コマンド履歴を表示
-      } else if (baseCmd === 'history') {
-        if (commandHistory.current.length === 0) {
-          t.writeln('No command history.');
-        } else {
-          commandHistory.current.forEach((historyCommand, index) => {
-            t.writeln(`${index + 1}: ${historyCommand}`);
-          });
-        }
-
-        // 'open' コマンド: プロフィールに設定されたSNSを開く
-      } else if (baseCmd === 'open') {
-        const target = args[0];
-
-        // 別タブか別ウィンドウで開く
-        if (!target) {
-          t.writeln('Usage: open <x|github>');
-        } else if (target === 'x') {
-          window.open(PROFILE.xUrl, '_blank', 'noopener,noreferrer');
-          t.writeln('Opening X...');
-        } else if (target === 'github') {
-          window.open(PROFILE.githubUrl, '_blank', 'noopener,noreferrer');
-          t.writeln('Opening GitHub...');
-        } else {
-          t.writeln('Usage: open <x|github>');
-        }
-
-        // 'clear' コマンド: ターミナルをクリア
-      } else if (baseCmd === 'clear') {
-        t.clear();
-
-        // 未対応コマンド
-      } else {
-        t.writeln(`Command not found: ${cmd}`);
-      }
-    };
-
+    // ウィンドウサイズが変更されたときにターミナルをリサイズする
     const resizeObserver = new ResizeObserver(() => {
       fitAddon.fit();
     });
     resizeObserver.observe(terminalRef.current);
 
     return () => {
+      disposed = true;
       resizeObserver.disconnect();
+      inputSubscription.dispose();
       term.dispose();
     };
   }, [navigate]);
@@ -205,6 +166,4 @@ const TerminalComponent: React.FC = () => {
       />
     </div>
   );
-};
-
-export default TerminalComponent;
+}

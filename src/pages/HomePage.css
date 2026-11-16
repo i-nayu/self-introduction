@@ -137,6 +137,11 @@
   font-size: 0.75rem;
 }
 
+.home-terminal:focus-within .home-terminal-bar {
+  border-bottom-color: #60a5fa;
+  color: #f0f9ff;
+}
+
 .home-terminal-dots {
   display: flex;
   gap: 0.35rem;
