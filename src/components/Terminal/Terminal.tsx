@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Terminal as XtermTerminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { executeCommand } from './terminalCommands';
-import { redrawCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
+import { redrawCommand, submitCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
 import { backspaceAtCursor, browseHistory, insertAtCursor, moveCursor, printableInput } from './terminalInput';
 import 'xterm/css/xterm.css';
 import './Terminal.css';
@@ -54,21 +54,21 @@ export default function Terminal() {
       });
     };
 
+    // カーソルが折り返し先にあっても、入力の先頭行まで戻る行数を求める。
+    const rowsBeforePrompt = () => {
+      const buffer = term.buffer.active;
+      const currentRow = buffer.baseY + buffer.cursorY;
+      return wrappedRowsBeforePrompt(
+        currentRow,
+        (row) => buffer.getLine(row)?.isWrapped ?? false,
+      );
+    };
+
     // 現在の入力内容を、カーソル位置を保ったままターミナルに描き直す
     const showInput = () => {
       const value = commandBuffer.current;
       const caretIndex = cursorIndex.current;
-
-      enqueue(async () => {
-        const buffer = term.buffer.active;
-        const currentRow = buffer.baseY + buffer.cursorY;
-        // カーソルが折り返し先にあっても、入力の先頭行まで戻る。
-        const rowsBeforePrompt = wrappedRowsBeforePrompt(
-          currentRow,
-          (row) => buffer.getLine(row)?.isWrapped ?? false,
-        );
-        await write(redrawCommand(value, caretIndex, rowsBeforePrompt));
-      });
+      enqueue(() => write(redrawCommand(value, caretIndex, rowsBeforePrompt())));
     };
 
     enqueue(() => write('Welcome to my portfolio!\r\nType "help" for available commands.\r\n> '));
@@ -77,11 +77,12 @@ export default function Terminal() {
     const inputSubscription = term.onData((data) => {
       // Enterキーが押された場合、コマンドを実行する
       if (data === '\r' || data === '\n') {
-        const result = executeCommand(commandBuffer.current, commandHistory.current);
+        const value = commandBuffer.current;
+        const result = executeCommand(value, commandHistory.current);
         commandHistory.current = result.history;
 
         enqueue(async () => {
-          await write('\r\n');
+          await write(submitCommand(value, rowsBeforePrompt()));
           for (const line of result.lines) await write(`${line}\r\n`);
           if (result.action?.type === 'clear') term.clear();
           await write('\r\n> ');

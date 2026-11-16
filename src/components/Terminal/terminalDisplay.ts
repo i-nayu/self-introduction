@@ -19,3 +19,9 @@ export function redrawCommand(value: string, cursorIndex: number, rowsBeforeProm
   // 入力の先頭へ戻り、折り返した行も消してからカーソル位置を復元する。
   return `${moveToPrompt}\r\x1b[0J> ${beforeCursor}\x1b[s${afterCursor}\x1b[u`;
 }
+
+//Enterを押したときの表示だけを整えるため
+export function submitCommand(value: string, rowsBeforePrompt: number): string {
+  // 入力途中の編集位置ではなく、コマンドの末尾から改行する。
+  return `${redrawCommand(value, [...value].length, rowsBeforePrompt)}\r\n`;
+}
