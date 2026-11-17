@@ -21,7 +21,6 @@ export default function ProductsPage() {
         <p className="product-eyebrow">PORTFOLIO / PRODUCTS</p>
         <h1>Products</h1>
         <p>制作物一覧です。</p>
-        <span className="products-count">{PRODUCTS.length} PRODUCTS</span>
       </header>
       <div className="products-grid">
         {PRODUCTS.map((product) => (

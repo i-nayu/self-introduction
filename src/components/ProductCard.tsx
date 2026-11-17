@@ -12,7 +12,7 @@ export default function ProductCard({ product, anchorId }: ProductCardProps) {
       <div className="product-card-media">
         <img
           src={product.imageUrl}
-          alt={`${product.title}のスクリーンショット`}
+          alt={`${product.title}の紹介画像`}
           loading="lazy"
           decoding="async"
         />

@@ -32,7 +32,6 @@ export default function SiteLayout() {
       <div id="site-content" className="site-content" tabIndex={-1}>
         <Outlet />
       </div>
-      <footer className="site-footer">© nayu</footer>
     </div>
   );
 }

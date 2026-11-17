@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import App from '../src/App';
+import ProductCard from '../src/components/ProductCard';
 import { PRODUCTS } from '../src/data/products';
 import { PROFILE } from '../src/data/profile';
 import { SKILL_GROUPS } from '../src/data/skills';
@@ -33,10 +34,15 @@ describe('サイトのルート', () => {
   it('Home にターミナルと主要ページへの導線を表示する', () => {
     const html = renderAt('/');
     expect(html).toContain('Terminal-wrapper');
+    expect(html).toContain('<h1 id="home-title">Portfolio</h1>');
     expect(html).toContain('メインナビゲーション');
     expect(html).toContain('href="/about"');
     expect(html).toContain('href="/products"');
-    expect(html).toContain(PROFILE.about);
+    expect(html).toContain('制作物を見る');
+    expect(html).not.toContain('プロフィールを見る');
+    expect(html).not.toContain('ABOUT ME');
+    expect(html).not.toContain(PROFILE.about);
+    expect(html).not.toContain('©');
     expect(html).not.toContain('View Works');
     expect(html).not.toContain('RiST');
   });
@@ -119,6 +125,7 @@ describe('サイトのルート', () => {
       expect(card?.includes('class="product-card-featured"')).toBe(product.featured);
       expect(card).not.toContain(`href="/products/${product.slug}"`);
       expect(card).toContain(`src="${product.imageUrl}"`);
+      expect(card).toMatch(/<img\b[^>]*\balt="[^"]+"/);
       expect(card).toContain(product.description || '紹介文は準備中です。');
       for (const technology of product.technologies) {
         expect(card).toContain(technology);
@@ -137,15 +144,10 @@ describe('サイトのルート', () => {
   });
 
   it('技術が未登録の作品に技術欄を表示しない', () => {
-    const cards = productCards(renderAt('/products'));
-    const productsWithoutTechnologies = PRODUCTS.filter((product) => product.technologies.length === 0);
+    const productWithoutTechnologies = { ...PRODUCTS[0], technologies: [] };
+    const html = renderToStaticMarkup(<ProductCard product={productWithoutTechnologies} />);
 
-    expect(productsWithoutTechnologies.length).toBeGreaterThan(0);
-    for (const product of productsWithoutTechnologies) {
-      const card = cards.find((item) => item.includes(`<h2>${product.title}</h2>`));
-      expect(card).toBeDefined();
-      expect(card).not.toContain('aria-label="使用技術"');
-    }
+    expect(html).not.toContain('aria-label="使用技術"');
   });
 
   it('不明な URL と廃止した詳細URLには案内画面を表示する', () => {
