@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import App from '../src/App';
 import ProductCard from '../src/components/ProductCard';
+import { INTERNSHIPS } from '../src/data/internships';
 import { PRODUCTS } from '../src/data/products';
 import { PROFILE } from '../src/data/profile';
 import { SKILL_GROUPS } from '../src/data/skills';
@@ -27,6 +28,11 @@ function productCards(html: string) {
 
 function skillSections(html: string) {
   return [...html.matchAll(/<section class="skills-category"[^>]*>([\s\S]*?)<\/section>/g)]
+    .map((match) => match[1]);
+}
+
+function internshipCards(html: string) {
+  return [...html.matchAll(/<article class="internship-card"[^>]*>([\s\S]*?)<\/article>/g)]
     .map((match) => match[1]);
 }
 
@@ -63,9 +69,11 @@ describe('サイトのルート', () => {
     expect(renderAt('/skills')).toContain('<h1>Skills</h1>');
   });
 
-  it('Skills にカテゴリと確認済みの技術を表示し、未確認の Backend は空欄にする', () => {
-    const sections = skillSections(renderAt('/skills'));
+  it('Skills にカテゴリと掲載済みの技術を表示する', () => {
+    const html = renderAt('/skills');
+    const sections = skillSections(html);
 
+    expect(html).toContain('<h2 id="technical-stack-title">技術スタック</h2>');
     expect(sections).toHaveLength(SKILL_GROUPS.length);
     for (const group of SKILL_GROUPS) {
       const section = sections.find((item) => item.includes(`<h3 id="skills-${group.id}">${group.label}</h3>`));
@@ -96,6 +104,55 @@ describe('サイトのルート', () => {
         } else {
           expect(section).not.toContain(link);
         }
+      }
+    }
+  });
+
+  it('Skills から技術が一致するインターン経験にだけリンクする', () => {
+    const sections = skillSections(renderAt('/skills'));
+
+    for (const group of SKILL_GROUPS) {
+      const section = sections.find((item) => item.includes(`<h3 id="skills-${group.id}">${group.label}</h3>`));
+      expect(section).toBeDefined();
+      for (const experience of INTERNSHIPS) {
+        const matchedSkills = group.skills.filter((skill) => experience.technologies?.includes(skill));
+        const link = `href="#internship-${experience.id}"`;
+        if (matchedSkills.length > 0) {
+          expect(section).toContain(link);
+          expect(section).toContain(matchedSkills.join(' / '));
+        } else {
+          expect(section).not.toContain(link);
+        }
+      }
+    }
+  });
+
+  it('Skills にインターンでの担当内容を表示する', () => {
+    const html = renderAt('/skills');
+    const cards = internshipCards(html);
+
+    expect(html).toContain('<h2 id="internship-experience-title">インターン経験</h2>');
+    expect(html).toContain('href="#technical-stack"');
+    expect(html).toContain('href="#internship-experience"');
+    expect(cards).toHaveLength(INTERNSHIPS.length);
+    for (const experience of INTERNSHIPS) {
+      const card = cards.find((item) => item.includes(`<h3>${experience.title}</h3>`));
+      expect(card).toBeDefined();
+      expect(html).toContain(`id="internship-${experience.id}"`);
+      expect(card).toContain(experience.duration);
+      expect(card).toContain(experience.role);
+      expect(card).toContain(experience.summary);
+      expect(card).toContain(experience.learning);
+      for (const contribution of experience.contributions) {
+        expect(card).toContain(`<li>${contribution}</li>`);
+      }
+      if (experience.technologies?.length) {
+        expect(card).toContain('<h4>使用技術</h4>');
+        for (const technology of experience.technologies) {
+          expect(card).toContain(`<li>${technology}</li>`);
+        }
+      } else {
+        expect(card).not.toContain('internship-card-technologies');
       }
     }
   });

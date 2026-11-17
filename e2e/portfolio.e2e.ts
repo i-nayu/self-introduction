@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { INTERNSHIPS } from '../src/data/internships';
 import { PRODUCTS } from '../src/data/products';
 
 for (const [label, path, heading] of [
@@ -43,6 +44,17 @@ test('存在しないURLからHomeへ戻れる', async ({ page }) => {
     .toBeVisible();
   await page.getByRole('link', { name: 'Homeへ戻る' }).click();
   await expect(page).toHaveURL(/\/$/);
+});
+
+test('Skillsの関連リンクからインターン経験のカードへ移動できる', async ({ page }) => {
+  const experience = INTERNSHIPS.find((item) => item.technologies?.length);
+  if (!experience) throw new Error('技術を掲載したインターン経験がありません');
+
+  await page.goto('/skills');
+  await page.locator(`a[href="#internship-${experience.id}"]`).first().click();
+
+  await expect(page).toHaveURL(new RegExp(`#internship-${experience.id}$`));
+  await expect(page.locator(`#internship-${experience.id}`)).toBeInViewport();
 });
 
 test('ターミナルのcdコマンドでページを移動できる', async ({ page }) => {
