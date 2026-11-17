@@ -17,6 +17,17 @@ export interface SkillGroup {
   skills: readonly string[];
 }
 
+export interface InternshipExperience {
+  id: string;
+  title: string;
+  duration: string;
+  role: string;
+  summary: string;
+  technologies?: readonly string[];
+  contributions: readonly string[];
+  learning: string;
+}
+
 export interface Product {
   slug: string;
   title: string;
