@@ -102,14 +102,6 @@
   letter-spacing: 0.16em;
 }
 
-.site-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #bae6fd;
-  color: #52708b;
-  text-align: center;
-  font-size: 0.85rem;
-}
-
 @media (max-width: 600px) {
   .site-header-inner {
     align-items: flex-start;
