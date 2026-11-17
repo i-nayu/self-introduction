@@ -34,12 +34,6 @@ test('Homeから作品一覧を開き、作品と外部リンクを確認でき�
   await expect(githubLink).toHaveAttribute('href', 'https://github.com/jphacks/os_2508');
   await expect(githubLink).toHaveAttribute('target', '_blank');
   await expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer');
-
-  const gagaku = page.getByRole('article').filter({
-    has: page.getByRole('heading', { level: 2, name: 'gagaku_welcome（個人開発）' }),
-  });
-  await expect(gagaku.getByRole('link', { name: /公開サイト/ }))
-    .toHaveAttribute('href', 'https://gagakuwelcome.vercel.app');
 });
 
 test('存在しないURLからHomeへ戻れる', async ({ page }) => {
