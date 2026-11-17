@@ -68,7 +68,7 @@ describe('サイトのルート', () => {
 
     expect(sections).toHaveLength(SKILL_GROUPS.length);
     for (const group of SKILL_GROUPS) {
-      const section = sections.find((item) => item.includes(`<h2 id="skills-${group.id}">${group.label}</h2>`));
+      const section = sections.find((item) => item.includes(`<h3 id="skills-${group.id}">${group.label}</h3>`));
       expect(section).toBeDefined();
       expect(section).toContain(group.description);
       for (const skill of group.skills) {
@@ -85,7 +85,7 @@ describe('サイトのルート', () => {
     const sections = skillSections(renderAt('/skills'));
 
     for (const group of SKILL_GROUPS) {
-      const section = sections.find((item) => item.includes(`<h2 id="skills-${group.id}">${group.label}</h2>`));
+      const section = sections.find((item) => item.includes(`<h3 id="skills-${group.id}">${group.label}</h3>`));
       expect(section).toBeDefined();
       for (const product of PRODUCTS) {
         const matchedSkills = group.skills.filter((skill) => product.technologies.includes(skill));
