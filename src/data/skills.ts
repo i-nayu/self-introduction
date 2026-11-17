@@ -4,19 +4,19 @@ export const SKILL_GROUPS: readonly SkillGroup[] = [
   {
     id: 'frontend',
     label: 'Frontend',
-    description: '掲載しているWebアプリの制作物で使用した技術です。',
-    skills: ['CSS', 'JavaScript', 'TypeScript', 'React'],
+    description: '制作物やインターンのフロントエンド開発で使用した技術です。',
+    skills: ['CSS', 'JavaScript', 'TypeScript', 'React', 'React Router', 'Ruby', 'Rails'],
   },
   {
     id: 'backend',
     label: 'Backend',
-    description: '掲載内容を確認でき次第、追加します。',
-    skills: [], // 掲載できる技術が確認できるまで空にしておく
+    description: '制作物やインターンのバックエンド・データベース開発で使用した技術です。',
+    skills: ['Express', 'MySQL', 'PostgreSQL', 'Java', `Node.js`],
   },
   {
     id: 'other',
     label: 'Other',
-    description: 'ブロックチェーンやSwift、Cなど、Frontend以外の技術です。',
-    skills: ['Blockchain (Symbol)', 'Swift', 'C'],
+    description: 'ブロックチェーン、アプリ、データ分析、インフラなどの技術です。',
+    skills: ['Blockchain (Symbol)', 'Swift', 'SwiftUI', 'Python', 'AWS', 'Terraform', 'C'],
   },
 ];
