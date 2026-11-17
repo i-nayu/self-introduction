@@ -1,7 +1,7 @@
 .skills-intro {
   position: relative;
   overflow: hidden;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   padding: clamp(2rem, 5vw, 3.5rem);
   border: 1px solid #bae6fd;
   border-radius: 1rem;
@@ -26,6 +26,65 @@
 
 .site-page .skills-intro p:last-child {
   max-width: 35rem;
+  margin: 0;
+  color: #365572;
+}
+
+.skills-page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.skills-page-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid #bae6fd;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skills-page-nav a:hover {
+  background: #e0f2fe;
+}
+
+.skills-page-nav a:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 3px;
+}
+
+.skills-block {
+  scroll-margin-top: 2rem;
+}
+
+.skills-block + .skills-block {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.skills-block-heading {
+  margin-bottom: 1.5rem;
+}
+
+.skills-block-number {
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.site-page .skills-block-heading h2 {
+  margin: 0.55rem 0 0.35rem;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+}
+
+.site-page .skills-block-heading p {
+  max-width: 42rem;
   margin: 0;
   color: #365572;
 }
@@ -57,8 +116,9 @@
   letter-spacing: 0.1em;
 }
 
-.site-page .skills-category h2 {
+.site-page .skills-category h3 {
   margin: 0 0 0.35rem;
+  color: #183153;
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
@@ -98,7 +158,7 @@
   border-top: 1px solid #bae6fd;
 }
 
-.site-page .skills-related h3 {
+.site-page .skills-related h4 {
   margin: 0 0 1rem;
   color: #183153;
   font-size: 1rem;
@@ -143,6 +203,142 @@
   margin-top: 0.35rem;
   color: #365572;
   font-size: 0.8rem;
+}
+
+.internship-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.internship-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border: 1px solid #bae6fd;
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.internship-card[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+.internship-card:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 3px;
+}
+
+.internship-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.internship-card-number {
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.internship-card-duration {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #183153;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.site-page .internship-card h3 {
+  margin: 0 0 0.4rem;
+  color: #183153;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+.site-page .internship-card-role {
+  margin: 0 0 1rem;
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.site-page .internship-card-summary {
+  margin-bottom: 0;
+}
+
+.internship-card-technologies {
+  margin-top: 1.4rem;
+}
+
+.site-page .internship-card-technologies h4 {
+  margin: 0 0 0.65rem;
+  color: #183153;
+  font-size: 0.9rem;
+}
+
+.internship-card-technologies ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.internship-card-technologies li {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #bae6fd;
+  border-radius: 0.5rem;
+  background: #f0f9ff;
+  color: #183153;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.internship-card-detail {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid #e0f2fe;
+}
+
+.site-page .internship-card-detail h4 {
+  margin: 0 0 0.65rem;
+  color: #183153;
+  font-size: 0.9rem;
+}
+
+.internship-card-detail ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.7;
+}
+
+.internship-card-detail li::marker {
+  color: #1d4ed8;
+}
+
+.internship-card-learning {
+  margin-top: auto;
+  padding-top: 1.4rem;
+  border-top: 0;
+}
+
+.site-page .internship-card-learning p {
+  margin: 0;
+  color: #365572;
+}
+
+@media (max-width: 760px) {
+  .internship-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
