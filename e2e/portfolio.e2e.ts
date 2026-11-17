@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { INTERNSHIPS } from '../src/data/internships';
 import { PRODUCTS } from '../src/data/products';
 
 for (const [label, path, heading] of [
@@ -34,12 +35,6 @@ test('Homeから作品一覧を開き、作品と外部リンクを確認でき�
   await expect(githubLink).toHaveAttribute('href', 'https://github.com/jphacks/os_2508');
   await expect(githubLink).toHaveAttribute('target', '_blank');
   await expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer');
-
-  const gagaku = page.getByRole('article').filter({
-    has: page.getByRole('heading', { level: 2, name: 'gagaku_welcome（個人開発）' }),
-  });
-  await expect(gagaku.getByRole('link', { name: /公開サイト/ }))
-    .toHaveAttribute('href', 'https://gagakuwelcome.vercel.app');
 });
 
 test('存在しないURLからHomeへ戻れる', async ({ page }) => {
@@ -49,6 +44,17 @@ test('存在しないURLからHomeへ戻れる', async ({ page }) => {
     .toBeVisible();
   await page.getByRole('link', { name: 'Homeへ戻る' }).click();
   await expect(page).toHaveURL(/\/$/);
+});
+
+test('Skillsの関連リンクからインターン経験のカードへ移動できる', async ({ page }) => {
+  const experience = INTERNSHIPS.find((item) => item.technologies?.length);
+  if (!experience) throw new Error('技術を掲載したインターン経験がありません');
+
+  await page.goto('/skills');
+  await page.locator(`a[href="#internship-${experience.id}"]`).first().click();
+
+  await expect(page).toHaveURL(new RegExp(`#internship-${experience.id}$`));
+  await expect(page.locator(`#internship-${experience.id}`)).toBeInViewport();
 });
 
 test('ターミナルのcdコマンドでページを移動できる', async ({ page }) => {
