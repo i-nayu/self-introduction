@@ -75,6 +75,7 @@
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 .site-page .home-button-primary {
@@ -159,6 +160,7 @@
   font-weight: 700;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  transition: color 150ms ease;
 }
 
 .site-page .home-text-link:hover {
@@ -190,6 +192,13 @@
 
 .home-featured-grid .product-card-content {
   padding: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-page .home-button,
+  .site-page .home-text-link {
+    transition: none;
+  }
 }
 
 @media (max-width: 900px) {

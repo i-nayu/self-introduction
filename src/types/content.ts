@@ -35,6 +35,9 @@ export interface Product {
   technologies: readonly string[];
   description: string;
   githubUrl?: string;
-  siteUrl?: string;
+  /** アプリ・プロダクト本体のURL */
+  productUrl?: string;
+  /** プロダクトを紹介しているページのURL */
+  introductionUrl?: string;
   featured: boolean;
 }

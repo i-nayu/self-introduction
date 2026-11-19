@@ -48,6 +48,7 @@
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
+  transition: background-color 150ms ease;
 }
 
 .skills-page-nav a:hover {
@@ -57,6 +58,12 @@
 .skills-page-nav a:focus-visible {
   outline: 3px solid #1d4ed8;
   outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-page-nav a {
+    transition: none;
+  }
 }
 
 .skills-block {

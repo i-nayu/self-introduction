@@ -10,7 +10,7 @@ export default function SkillsPage() {
       <header className="skills-intro">
         <p className="site-eyebrow">ABOUT / SKILLS</p>
         <h1>Skills</h1>
-        <p>制作物やインターンで使った技術と、開発・分析の経験を紹介します。</p>
+        <p>これまでに触れた技術と、インターンの経験について紹介します。</p>
       </header>
 
       <nav className="skills-page-nav" aria-label="Skillsページ内の移動">
@@ -99,7 +99,6 @@ export default function SkillsPage() {
         <div className="skills-block-heading">
           <span className="skills-block-number" aria-hidden="true">02 / EXPERIENCE</span>
           <h2 id="internship-experience-title">インターン経験</h2>
-          <p>開発や分析の現場で、課題の整理から実装・レビューまで取り組みました。</p>
         </div>
 
         <div className="internship-grid">

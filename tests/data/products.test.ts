@@ -27,7 +27,7 @@ describe('制作物データ', () => {
 
   test('設定された外部リンクはHTTPSである', () => {
     for (const product of PRODUCTS) {
-      for (const link of [product.githubUrl, product.siteUrl]) {
+      for (const link of [product.githubUrl, product.productUrl, product.introductionUrl]) {
         if (link) {
           expect(new URL(link).protocol).toBe('https:')
         }

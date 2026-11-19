@@ -1,3 +1,4 @@
+import { SiGithub, SiX } from 'react-icons/si';
 import { PROFILE } from '../data/profile';
 import './ProfilePage.css';
 
@@ -15,7 +16,6 @@ export default function ProfilePage() {
           <img src={PROFILE.avatarUrl} alt={`${PROFILE.name}のプロフィール写真`} />
         </div>
         <div className="profile-bio">
-          <p className="site-eyebrow">HELLO, I'M</p>
           <h2 id="profile-name">{PROFILE.name}</h2>
           <p className="profile-affiliation">{PROFILE.affiliation}</p>
           <p>{PROFILE.about}</p>
@@ -34,8 +34,12 @@ export default function ProfilePage() {
           <p className="site-eyebrow">CONNECT</p>
           <h2 id="profile-links-title">SNS・リンク</h2>
           <div className="profile-links">
-            <a href={PROFILE.xUrl} target="_blank" rel="noopener noreferrer">X <span aria-hidden="true">↗</span></a>
-            <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            <a href={PROFILE.xUrl} target="_blank" rel="noopener noreferrer">
+              <SiX aria-hidden="true" focusable="false" />X
+            </a>
+            <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer">
+              <SiGithub aria-hidden="true" focusable="false" />GitHub
+            </a>
           </div>
         </section>
       </div>
