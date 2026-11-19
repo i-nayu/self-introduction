@@ -84,31 +84,41 @@ test('動きを減らす設定ではページとカードの演出を停止す�
   await expect(card).toHaveCSS('transform', 'none');
 });
 
+// 同じ確認を春夏秋冬で行い、季節ごとに独立したテストを1件ずつ登録する。
 for (const [season, month] of [
   ['spring', 4], ['summer', 7], ['autumn', 10], ['winter', 1],
 ] as const) {
   test(`${season}の装飾は操作を妨げず、動きを減らす設定では静止する`, async ({ page }) => {
+    // ブラウザの日付を各季節の代表月に固定する。Dateの月は0始まりなので1を引く。
     await page.clock.setFixedTime(new Date(2026, month - 1, 15, 12));
     await page.goto('/');
 
     const decoration = page.locator('.seasonal-decoration');
+    // 日付に対応する季節が、装飾とサイト全体のテーマに反映されることを確認する。
     await expect(decoration).toHaveClass(`seasonal-decoration seasonal-decoration--${season}`);
     await expect(page.locator('.site-shell')).toHaveClass(`site-shell site-shell--${season}`);
+
+    // 装飾が読み上げ対象にならず、背後のリンクなどへのクリックも妨げない設定を確認する。
     await expect(decoration).toHaveAttribute('aria-hidden', 'true');
     await expect(decoration).toHaveCSS('pointer-events', 'none');
+
+    // 装飾が画面全体の背面に固定され、Homeのヒーロー内ではなく共通レイアウト直下にあることを確認する。
     await expect(decoration).toHaveCSS('position', 'fixed');
     await expect(decoration).toHaveCSS('z-index', '-1');
     await expect(page.locator('.site-shell > .seasonal-decoration')).toHaveCount(1);
     await expect(page.locator('.home-hero .seasonal-decoration')).toHaveCount(0);
 
+    // 各SVGの読み込みを待ち、画像本来の幅が0より大きいことで画像切れがないか確認する。
     for (const image of await decoration.locator('img').all()) {
       await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     }
 
+    // Profileにページを移動しても、共通の季節装飾が引き続き表示されることを確認する。
     await page.getByRole('navigation', { name: 'メインナビゲーション' })
       .getByRole('link', { name: 'Profile', exact: true }).click();
     await expect(decoration).toBeVisible();
 
+    // 「動きを減らす」設定を再現し、装飾要素と画像のアニメーションが停止することを確認する。
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(decoration.locator('span').first()).toHaveCSS('animation-name', 'none');
     for (const image of await decoration.locator('img').all()) {
