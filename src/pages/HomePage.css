@@ -1,0 +1,236 @@
+.home-page {
+  max-width: 1126px;
+  padding-top: 2.5rem;
+}
+
+.home-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: linear-gradient(130deg, var(--soft) 12%, var(--border) 64%, var(--hero-end) 100%);
+}
+
+.home-hero::before,
+.home-hero::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.home-hero::before {
+  width: 34rem;
+  height: 34rem;
+  top: -21rem;
+  right: -9rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  border-radius: 50%;
+}
+
+.home-hero::after {
+  width: 24rem;
+  height: 1px;
+  right: -5rem;
+  bottom: 3rem;
+  transform: rotate(-25deg);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -0.6rem 0 rgba(255, 255, 255, 0.5);
+}
+
+.home-hero > * {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.home-hero-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.site-page .home-hero-heading .site-eyebrow {
+  margin-bottom: 0.4rem;
+}
+
+.site-page .home-hero h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.site-page .home-button {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.site-page .home-button-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.site-page .home-button-primary:hover {
+  background: var(--accent-hover);
+}
+
+.site-page .home-button:focus-visible,
+.site-page .home-text-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.home-terminal {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(var(--terminal-rgb), 0.18);
+  border-radius: 1rem;
+  background: var(--terminal-bg);
+  box-shadow: 0 22px 45px rgba(var(--terminal-rgb), 0.18);
+}
+
+.home-terminal-bar {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--border);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.home-terminal:focus-within .home-terminal-bar {
+  border-bottom-color: var(--terminal-dot);
+  color: var(--soft);
+}
+
+.home-terminal-dots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.home-terminal-dots i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--terminal-dot);
+}
+
+.home-terminal-dots i:nth-child(2) {
+  background: var(--highlight);
+}
+
+.home-terminal-dots i:nth-child(3) {
+  background: var(--border);
+}
+
+.home-terminal .Terminal-wrapper {
+  height: 260px !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.site-page .home-section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  letter-spacing: -0.03em;
+}
+
+.site-page .home-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: color 150ms ease;
+}
+
+.site-page .home-text-link:hover {
+  color: var(--accent-hover);
+}
+
+.home-featured {
+  padding-top: 4rem;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.site-page .home-section-heading p:last-child {
+  margin: 0.75rem 0 0;
+  color: var(--text);
+}
+
+.home-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.home-featured-grid .product-card-content {
+  padding: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-page .home-button,
+  .site-page .home-text-link {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .home-page {
+    padding-top: 1.5rem;
+  }
+
+  .home-hero-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .home-featured {
+    padding-top: 3rem;
+  }
+
+  .home-terminal .Terminal-wrapper {
+    height: 240px !important;
+  }
+
+  .home-section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .home-featured-grid {
+    grid-template-columns: 1fr;
+  }
+}

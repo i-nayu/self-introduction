@@ -1,0 +1,52 @@
+import type { Product } from '../types/content';
+
+export const PRODUCTS: readonly Product[] = [
+  {
+    slug: 'arrow',
+    title: 'ARROW（JPHACKS 2025）',
+    imageUrl: '/ARROW.png',
+    technologies: ['React', 'React Router', 'CSS', 'TypeScript', 'Node.js', 'Express', 'MySQL'],
+    description: 'イベントを誰もが見逃すことなく手軽に参加・運営できるWebアプリケーションです。イベント開催に必要な手順の多さと、それが生む参加・運営の障壁を減らすことを目指しています。',
+    githubUrl: 'https://github.com/jphacks/os_2508',
+    featured: true,
+  },
+  {
+    slug: 'touction',
+    title: 'Touction（NEMTUS Hackathon）',
+    imageUrl: '/Touction.png',
+    technologies: ['React', 'React Router', 'CSS', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'Blockchain (Symbol)'],
+    description: 'Symbolテストネットを使った写真トーナメントとオークションのアプリです。写真の投稿、投票、オークションへの入札・購入ができます。',
+    githubUrl: 'https://github.com/i-nayu/Touction',
+    introductionUrl: 'https://app.akindo.io/communities/93ZDl69NdF06gewV/products/q3GaZBjPoFp9OmNn',
+    featured: true,
+  },
+  {
+    slug: 'webtan',
+    title: 'タンタン（58ハッカソン）',
+    imageUrl: '/WebTan.png',
+    technologies: ['React', 'React Router', 'TypeScript', 'JavaScript', 'CSS', 'Chrome Extension API'],
+    description: 'WebサイトやPDFでテキストにマーカーを引くと、単語帳を自動生成できるChrome拡張機能・Webツールです。',
+    githubUrl: 'https://github.com/i-nayu/WebTan',
+    productUrl: 'https://tantan-0wp4.onrender.com',
+    introductionUrl: 'https://topaz.dev/projects/3eec3840a5f3336cbd87',
+    featured: true,
+  },
+  {
+    slug: 'trustoken',
+    title: 'TrusToken（KC3Hack 2026）',
+    imageUrl: '/TrusToken.jpg',
+    technologies: ['React', 'React Router', 'CSS', 'TypeScript', 'Node.js', 'MySQL', 'Express', 'Blockchain (Symbol)'],
+    description: '「信頼」をテーマに、コミュニティごとにトークンを発行・管理・取引できる、ブロックチェーンを使用したWebアプリケーションです。',
+    githubUrl: 'https://github.com/kc3hack/2026_team3',
+    featured: false,
+  },
+  {
+    slug: 'clipboard-app',
+    title: 'ClipboardApp（個人開発）',
+    imageUrl: '/ClipboardApp.png',
+    technologies: ['Swift', 'SwiftUI', 'AppKit'],
+    description: 'macOS向けのクリップボード履歴管理アプリです。バックグラウンドでコピー内容を監視し、ショートカットキーで履歴を呼び出せます。',
+    githubUrl: 'https://github.com/i-nayu/ClipboardApp',
+    featured: false,
+  },
+];
