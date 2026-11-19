@@ -3,9 +3,9 @@
   overflow: hidden;
   padding: clamp(2rem, 5vw, 3.5rem);
   margin-bottom: 2rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: linear-gradient(125deg, #fff 25%, #e0f2fe 100%);
+  background: linear-gradient(125deg, var(--surface) 25%, var(--tint) 100%);
 }
 
 .products-intro::after {
@@ -15,13 +15,13 @@
   height: 15rem;
   right: -5rem;
   top: -7rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 50%;
   pointer-events: none;
 }
 
 .product-eyebrow {
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -33,15 +33,15 @@
 
 .products-intro > p:not(.product-eyebrow) {
   max-width: 35rem;
-  color: #365572;
+  color: var(--text);
 }
 
 .products-count {
   display: inline-block;
   margin-top: 1rem;
   padding-top: 0.65rem;
-  border-top: 2px solid #38bdf8;
-  color: #1d4ed8;
+  border-top: 2px solid var(--highlight);
+  color: var(--accent);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;

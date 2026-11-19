@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <radialGradient id="pink" cx="50" cy="51" r="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e99ab6"/>
+      <stop offset=".45" stop-color="#f8d3e0"/>
+      <stop offset="1" stop-color="#efb2ca"/>
+    </radialGradient>
+    <path id="petal" d="M50 52C42 46 32 34 33 22C33 12 40 6 44 9L50 16L56 9C60 6 67 12 67 22C68 34 58 46 50 52Z"/>
+  </defs>
+  <g fill="url(#pink)" stroke="#df9bb7" stroke-width="1" stroke-linejoin="round">
+    <use href="#petal"/>
+    <use href="#petal" transform="rotate(72 50 51)"/>
+    <use href="#petal" transform="rotate(144 50 51)"/>
+    <use href="#petal" transform="rotate(216 50 51)"/>
+    <use href="#petal" transform="rotate(288 50 51)"/>
+  </g>
+  <g stroke="#d882a3" stroke-width="1.6" stroke-linecap="round">
+    <path d="M50 51V35M50 51L65 46M50 51L59 64M50 51L41 64M50 51L35 46"/>
+  </g>
+  <g fill="#d6a550">
+    <circle cx="50" cy="35" r="2"/>
+    <circle cx="65" cy="46" r="2"/>
+    <circle cx="59" cy="64" r="2"/>
+    <circle cx="41" cy="64" r="2"/>
+    <circle cx="35" cy="46" r="2"/>
+  </g>
+  <circle cx="50" cy="51" r="3" fill="#d882a3"/>
+</svg>

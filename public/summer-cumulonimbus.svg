@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 340" fill="none">
+  <defs>
+    <linearGradient id="cloud" x1="232" y1="45" x2="210" y2="317" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffef8"/>
+      <stop offset=".55" stop-color="#ffffff"/>
+      <stop offset=".84" stop-color="#eef7fc"/>
+      <stop offset="1" stop-color="#c9e2f2"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="248" y1="130" x2="220" y2="301" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d8eaf5" stop-opacity="0"/>
+      <stop offset="1" stop-color="#b9d9ed" stop-opacity=".52"/>
+    </linearGradient>
+  </defs>
+  <path d="M65 310C31 313 13 290 22 267C10 246 25 224 47 222C42 199 58 180 83 182C80 155 101 137 125 142C117 116 130 94 155 93C144 69 163 45 190 48C194 23 220 16 240 30C258 9 290 21 294 44C321 37 342 57 338 81C363 81 377 103 367 124C391 132 397 157 384 175C410 178 423 198 416 220C446 220 465 241 455 266C476 284 459 310 427 311Z" fill="url(#cloud)"/>
+  <path d="M63 309C48 283 69 262 91 267C91 240 119 224 142 236C136 212 149 197 170 193C164 169 179 151 200 151C199 126 221 111 243 121C259 103 286 114 291 136C315 130 336 147 333 171C358 169 374 186 370 208C398 203 422 224 417 247C443 249 451 276 436 292C410 321 110 321 63 309Z" fill="url(#shade)"/>
+  <g stroke="#d3e7f2" stroke-opacity=".65" stroke-width="2" stroke-linecap="round">
+    <path d="M156 94C173 92 185 103 184 120M240 31C251 38 257 49 254 61M295 45C281 48 273 61 275 75M126 143C147 140 162 156 159 172M83 183C105 176 127 189 128 207M384 176C366 174 351 184 349 201"/>
+  </g>
+</svg>

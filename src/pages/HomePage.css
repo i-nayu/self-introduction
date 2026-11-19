@@ -10,9 +10,9 @@
   gap: 1.5rem;
   overflow: hidden;
   padding: clamp(1.5rem, 4vw, 3rem);
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1.5rem;
-  background: linear-gradient(130deg, #f0f9ff 12%, #bae6fd 64%, #e5f6ff 100%);
+  background: linear-gradient(130deg, var(--soft) 12%, var(--border) 64%, var(--hero-end) 100%);
 }
 
 .home-hero::before,
@@ -27,7 +27,7 @@
   height: 34rem;
   top: -21rem;
   right: -9rem;
-  border: 1px solid rgba(29, 78, 216, 0.18);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
   border-radius: 50%;
 }
 
@@ -70,7 +70,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.65rem 1.1rem;
-  border: 1px solid #1d4ed8;
+  border: 1px solid var(--accent);
   border-radius: 0.65rem;
   font-size: 0.9rem;
   font-weight: 700;
@@ -79,27 +79,27 @@
 }
 
 .site-page .home-button-primary {
-  background: #1d4ed8;
+  background: var(--accent);
   color: #fff;
 }
 
 .site-page .home-button-primary:hover {
-  background: #183fae;
+  background: var(--accent-hover);
 }
 
 .site-page .home-button:focus-visible,
 .site-page .home-text-link:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
 .home-terminal {
   width: 100%;
   overflow: hidden;
-  border: 1px solid rgba(15, 37, 55, 0.18);
+  border: 1px solid rgba(var(--terminal-rgb), 0.18);
   border-radius: 1rem;
-  background: #0f2537;
-  box-shadow: 0 22px 45px rgba(15, 37, 55, 0.18);
+  background: var(--terminal-bg);
+  box-shadow: 0 22px 45px rgba(var(--terminal-rgb), 0.18);
 }
 
 .home-terminal-bar {
@@ -109,14 +109,14 @@
   gap: 0.9rem;
   padding: 0 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: #bae6fd;
+  color: var(--border);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.75rem;
 }
 
 .home-terminal:focus-within .home-terminal-bar {
-  border-bottom-color: #60a5fa;
-  color: #f0f9ff;
+  border-bottom-color: var(--terminal-dot);
+  color: var(--soft);
 }
 
 .home-terminal-dots {
@@ -128,15 +128,15 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: #60a5fa;
+  background: var(--terminal-dot);
 }
 
 .home-terminal-dots i:nth-child(2) {
-  background: #38bdf8;
+  background: var(--highlight);
 }
 
 .home-terminal-dots i:nth-child(3) {
-  background: #bae6fd;
+  background: var(--border);
 }
 
 .home-terminal .Terminal-wrapper {
@@ -164,7 +164,7 @@
 }
 
 .site-page .home-text-link:hover {
-  color: #183fae;
+  color: var(--accent-hover);
 }
 
 .home-featured {
@@ -181,7 +181,7 @@
 
 .site-page .home-section-heading p:last-child {
   margin: 0.75rem 0 0;
-  color: #365572;
+  color: var(--text);
 }
 
 .home-featured-grid {

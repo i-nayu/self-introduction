@@ -1,5 +1,8 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import SeasonalDecoration from './components/SeasonalDecoration';
+import { getSeason } from './components/season';
 import './site.css';
+import './seasonal-theme.css';
 
 const links = [
   { to: '/', label: 'Home' },
@@ -9,8 +12,11 @@ const links = [
 ];
 
 export default function SiteLayout() {
+  const season = getSeason(new Date());
+
   return (
-    <div className="site-shell">
+    <div className={`site-shell site-shell--${season}`}>
+      <SeasonalDecoration season={season} />
       <a className="site-skip-link" href="#site-content">本文へ移動</a>
       <header className="site-header">
         <div className="site-header-inner">

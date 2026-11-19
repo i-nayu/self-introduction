@@ -1,0 +1,94 @@
+.site-shell {
+  --heading: #183153;
+  --text: #365572;
+  --muted: #52708b;
+  --accent: #1d4ed8;
+  --accent-hover: #183fae;
+  --border: #bae6fd;
+  --highlight: #38bdf8;
+  --soft: #f0f9ff;
+  --tint: #e0f2fe;
+  --surface: #fff;
+  --hero-end: #e5f6ff;
+  --accent-rgb: 29, 78, 216;
+  --terminal-bg: #0f2537;
+  --terminal-rgb: 15, 37, 55;
+  --terminal-dot: #60a5fa;
+  color: var(--heading);
+}
+
+.site-shell--spring {
+  --heading: #433444;
+  --text: #625462;
+  --muted: #7c6979;
+  --accent: #9c3e69;
+  --accent-hover: #7d2d51;
+  --border: #ecd4dd;
+  --highlight: #c27695;
+  --soft: #fff5f8;
+  --tint: #f9e6ee;
+  --surface: #fffcfd;
+  --hero-end: #f8eef5;
+  --accent-rgb: 156, 62, 105;
+  --terminal-bg: #2a2230;
+  --terminal-rgb: 42, 34, 48;
+  --terminal-dot: #d8a4bd;
+  --season-background: radial-gradient(ellipse at 12% 0%, #f8e5ee, transparent 55%), linear-gradient(180deg, #fff6fa, #faf8fc);
+}
+
+.site-shell--summer {
+  --heading: #133e50;
+  --text: #3f6171;
+  --muted: #5d7b8b;
+  --accent: #086b91;
+  --accent-hover: #075270;
+  --border: #b9dfe9;
+  --highlight: #32a7c2;
+  --soft: #f0fbff;
+  --tint: #d9f1f7;
+  --surface: #fcfeff;
+  --hero-end: #eaf8f4;
+  --accent-rgb: 8, 107, 145;
+  --terminal-bg: #122c39;
+  --terminal-rgb: 18, 44, 57;
+  --terminal-dot: #f0cc77;
+  --season-background: radial-gradient(ellipse at 100% 0%, rgba(255, 227, 153, 0.48), transparent 55%), linear-gradient(180deg, #c2e8ff 0%, #e0f3ff 55%, #f0fbff 100%);
+}
+
+.site-shell--autumn {
+  --heading: #49382f;
+  --text: #695449;
+  --muted: #82695b;
+  --accent: #9c462c;
+  --accent-hover: #7b321f;
+  --border: #e8cfc2;
+  --highlight: #c77b45;
+  --soft: #fff6ef;
+  --tint: #f6e3d7;
+  --surface: #fffdfa;
+  --hero-end: #f9e8d8;
+  --accent-rgb: 156, 70, 44;
+  --terminal-bg: #2b2521;
+  --terminal-rgb: 43, 37, 33;
+  --terminal-dot: #d59c68;
+  --season-background: radial-gradient(ellipse at 90% 0%, #f8e5d3, transparent 55%), linear-gradient(180deg, #fffaf6, #fcf8f5);
+}
+
+.site-shell--winter {
+  --heading: #2d3c55;
+  --text: #52627a;
+  --muted: #6b7890;
+  --accent: #4d6095;
+  --accent-hover: #3a4978;
+  --border: #d2ddeb;
+  --highlight: #8b9fc3;
+  --soft: #f4f7fc;
+  --tint: #e4ebf5;
+  --surface: #fcfdff;
+  --hero-end: #edf0f9;
+  --accent-rgb: 77, 96, 149;
+  --terminal-bg: #202735;
+  --terminal-rgb: 32, 39, 53;
+  --terminal-dot: #afbfdc;
+  --season-background: linear-gradient(180deg, #d8e7f3 0%, #eaf3fa 60%, #f4f8fc 100%);
+}
