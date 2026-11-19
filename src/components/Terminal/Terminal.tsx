@@ -26,7 +26,7 @@ export default function Terminal() {
       cols: 80,
       fontFamily: 'monospace',
       theme: {
-        background: '#0f2537',
+        background: getComputedStyle(terminalRef.current).getPropertyValue('--terminal-bg').trim() || '#0f2537',
       }
     });
     const fitAddon = new FitAddon();

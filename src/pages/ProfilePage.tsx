@@ -17,8 +17,8 @@ export default function ProfilePage() {
         </div>
         <div className="profile-bio">
           <h2 id="profile-name">{PROFILE.name}</h2>
-          <p className="profile-affiliation">{PROFILE.affiliation}</p>
-          <p>{PROFILE.about}</p>
+          <p className="profile-affiliation readable-copy">{PROFILE.affiliation}</p>
+          <p className="readable-copy">{PROFILE.about}</p>
         </div>
       </section>
 

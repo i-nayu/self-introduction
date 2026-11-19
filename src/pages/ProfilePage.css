@@ -1,9 +1,9 @@
 .profile-intro {
   margin-bottom: 2rem;
   padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: linear-gradient(125deg, #fff 25%, #e0f2fe 100%);
+  background: linear-gradient(125deg, var(--surface) 25%, var(--tint) 100%);
 }
 
 .site-page .profile-intro h1 {
@@ -12,7 +12,7 @@
 
 .site-page .profile-intro p:last-child {
   margin: 0;
-  color: #365572;
+  color: var(--text);
 }
 
 .profile-overview {
@@ -24,9 +24,9 @@
 
 .profile-photo {
   overflow: hidden;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #bae6fd;
+  background: var(--border);
 }
 
 .profile-photo img {
@@ -44,13 +44,13 @@
 
 .site-page .profile-affiliation {
   margin-bottom: 1.5rem;
-  color: #1d4ed8;
+  color: var(--accent);
   font-weight: 700;
 }
 
 .site-page .profile-bio > p:last-child {
   max-width: 34rem;
-  color: #365572;
+  color: var(--text);
 }
 
 .profile-details {
@@ -63,9 +63,9 @@
 .profile-detail-panel {
   min-width: 0;
   padding: 1.75rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--surface);
 }
 
 .site-page .profile-detail-panel h2 {
@@ -85,8 +85,8 @@
 .profile-interests li {
   padding: 0.5rem 0.85rem;
   border-radius: 999px;
-  background: #e0f2fe;
-  color: #183153;
+  background: var(--tint);
+  color: var(--heading);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -104,7 +104,7 @@
   justify-content: center;
   gap: 0.6rem;
   padding: 0.65rem 0.85rem;
-  border: 1px solid #1d4ed8;
+  border: 1px solid var(--accent);
   border-radius: 0.6rem;
   font-weight: 700;
   text-decoration: none;
@@ -112,7 +112,7 @@
 }
 
 .profile-links a:hover {
-  background: #f0f9ff;
+  background: var(--soft);
 }
 
 .profile-links svg {
@@ -123,7 +123,7 @@
 }
 
 .profile-links a:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 

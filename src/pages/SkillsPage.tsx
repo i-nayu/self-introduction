@@ -22,7 +22,7 @@ export default function SkillsPage() {
         <div className="skills-block-heading">
           <span className="skills-block-number" aria-hidden="true">01 / TECH STACK</span>
           <h2 id="technical-stack-title">技術スタック</h2>
-          <p>制作物・インターン・授業で使用した技術をカテゴリごとにまとめています。</p>
+          <p className="readable-copy">制作物・インターン・授業で使用した技術をカテゴリごとにまとめています。</p>
         </div>
 
         <div className="skills-categories">

@@ -1,13 +1,15 @@
 /* ヘッダー・共通レイアウト */
 .site-shell {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .site-header {
-  background: #f0f9ff;
-  border-bottom: 1px solid #bae6fd;
+  background: var(--soft);
+  border-bottom: 1px solid var(--border);
 }
 
 .site-header-inner {
@@ -21,7 +23,7 @@
 }
 
 .site-brand {
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 1.25rem;
   font-weight: 700;
   text-decoration: none;
@@ -36,7 +38,7 @@
 .site-nav-link {
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
-  color: #183153;
+  color: var(--heading);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
@@ -45,12 +47,12 @@
 
 .site-nav-link:hover,
 .site-nav-link.is-active {
-  color: #1d4ed8;
-  background: #bae6fd;
+  color: var(--accent);
+  background: var(--border);
 }
 
 .site-nav-link:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -85,16 +87,27 @@
   to { transform: translateY(0); }
 }
 
+/* 枠を増やさず、本文の文字の輪郭だけを背景の装飾から分離する。 */
+.readable-copy {
+  text-shadow:
+    -1px -1px 0 var(--surface),
+    1px -1px 0 var(--surface),
+    -1px 1px 0 var(--surface),
+    1px 1px 0 var(--surface),
+    0 0 4px var(--surface),
+    0 0 8px var(--surface);
+}
+
 .site-page h1 {
   margin: 0 0 2rem;
-  color: #183153;
+  color: var(--heading);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.03em;
 }
 
 .site-page h2 {
-  color: #183153;
+  color: var(--heading);
   font-weight: 700;
 }
 
@@ -104,11 +117,11 @@
 }
 
 .site-page a {
-  color: #1d4ed8;
+  color: var(--accent);
 }
 
 .site-eyebrow {
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.16em;

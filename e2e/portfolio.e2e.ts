@@ -83,3 +83,36 @@ test('動きを減らす設定ではページとカードの演出を停止す�
   await card.hover();
   await expect(card).toHaveCSS('transform', 'none');
 });
+
+for (const [season, month] of [
+  ['spring', 4], ['summer', 7], ['autumn', 10], ['winter', 1],
+] as const) {
+  test(`${season}の装飾は操作を妨げず、動きを減らす設定では静止する`, async ({ page }) => {
+    await page.clock.setFixedTime(new Date(2026, month - 1, 15, 12));
+    await page.goto('/');
+
+    const decoration = page.locator('.seasonal-decoration');
+    await expect(decoration).toHaveClass(`seasonal-decoration seasonal-decoration--${season}`);
+    await expect(page.locator('.site-shell')).toHaveClass(`site-shell site-shell--${season}`);
+    await expect(decoration).toHaveAttribute('aria-hidden', 'true');
+    await expect(decoration).toHaveCSS('pointer-events', 'none');
+    await expect(decoration).toHaveCSS('position', 'fixed');
+    await expect(decoration).toHaveCSS('z-index', '-1');
+    await expect(page.locator('.site-shell > .seasonal-decoration')).toHaveCount(1);
+    await expect(page.locator('.home-hero .seasonal-decoration')).toHaveCount(0);
+
+    for (const image of await decoration.locator('img').all()) {
+      await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    }
+
+    await page.getByRole('navigation', { name: 'メインナビゲーション' })
+      .getByRole('link', { name: 'Profile', exact: true }).click();
+    await expect(decoration).toBeVisible();
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(decoration.locator('span').first()).toHaveCSS('animation-name', 'none');
+    for (const image of await decoration.locator('img').all()) {
+      await expect(image).toHaveCSS('animation-name', 'none');
+    }
+  });
+}

@@ -3,9 +3,9 @@
   overflow: hidden;
   margin-bottom: 1.25rem;
   padding: clamp(2rem, 5vw, 3.5rem);
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: linear-gradient(125deg, #fff 25%, #e0f2fe 100%);
+  background: linear-gradient(125deg, var(--surface) 25%, var(--tint) 100%);
 }
 
 .skills-intro::after {
@@ -15,7 +15,7 @@
   right: -5rem;
   width: 15rem;
   height: 15rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -27,7 +27,7 @@
 .site-page .skills-intro p:last-child {
   max-width: 35rem;
   margin: 0;
-  color: #365572;
+  color: var(--text);
 }
 
 .skills-page-nav {
@@ -42,9 +42,9 @@
   align-items: center;
   gap: 1.5rem;
   padding: 0.65rem 1rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: #fff;
+  background: var(--surface);
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
@@ -52,11 +52,11 @@
 }
 
 .skills-page-nav a:hover {
-  background: #e0f2fe;
+  background: var(--tint);
 }
 
 .skills-page-nav a:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .skills-block-number {
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -93,7 +93,7 @@
 .site-page .skills-block-heading p {
   max-width: 42rem;
   margin: 0;
-  color: #365572;
+  color: var(--text);
 }
 
 .skills-categories {
@@ -104,9 +104,9 @@
 .skills-category {
   min-width: 0;
   padding: clamp(1.5rem, 4vw, 2.5rem);
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--surface);
 }
 
 .skills-category-heading {
@@ -117,7 +117,7 @@
 
 .skills-category-number {
   padding-top: 0.2rem;
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -125,14 +125,14 @@
 
 .site-page .skills-category h3 {
   margin: 0 0 0.35rem;
-  color: #183153;
+  color: var(--heading);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .site-page .skills-category-heading p {
   max-width: 42rem;
   margin: 0;
-  color: #365572;
+  color: var(--text);
 }
 
 .skills-list {
@@ -146,28 +146,28 @@
 
 .skills-list li {
   padding: 0.6rem 0.9rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
-  background: #f0f9ff;
-  color: #183153;
+  background: var(--soft);
+  color: var(--heading);
   font-size: 0.9rem;
   font-weight: 700;
 }
 
 .site-page .skills-empty {
   margin: 1.5rem 0 0;
-  color: #52708b;
+  color: var(--muted);
 }
 
 .skills-related {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #bae6fd;
+  border-top: 1px solid var(--border);
 }
 
 .site-page .skills-related h4 {
   margin: 0 0 1rem;
-  color: #183153;
+  color: var(--heading);
   font-size: 1rem;
 }
 
@@ -184,7 +184,7 @@
   min-width: 0;
   padding: 0.8rem 1rem;
   border-radius: 0.65rem;
-  background: #f0f9ff;
+  background: var(--soft);
 }
 
 .skills-related a {
@@ -201,14 +201,14 @@
 }
 
 .skills-related a:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
 .skills-related-tech {
   display: block;
   margin-top: 0.35rem;
-  color: #365572;
+  color: var(--text);
   font-size: 0.8rem;
 }
 
@@ -223,9 +223,9 @@
   min-width: 0;
   flex-direction: column;
   padding: clamp(1.5rem, 3.5vw, 2.25rem);
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 1rem;
-  background: #fff;
+  background: var(--surface);
 }
 
 .internship-card[id] {
@@ -233,7 +233,7 @@
 }
 
 .internship-card:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -246,7 +246,7 @@
 }
 
 .internship-card-number {
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -255,21 +255,21 @@
 .internship-card-duration {
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
-  background: #e0f2fe;
-  color: #183153;
+  background: var(--tint);
+  color: var(--heading);
   font-size: 0.8rem;
   font-weight: 700;
 }
 
 .site-page .internship-card h3 {
   margin: 0 0 0.4rem;
-  color: #183153;
+  color: var(--heading);
   font-size: clamp(1.2rem, 2.5vw, 1.5rem);
 }
 
 .site-page .internship-card-role {
   margin: 0 0 1rem;
-  color: #1d4ed8;
+  color: var(--accent);
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -284,7 +284,7 @@
 
 .site-page .internship-card-technologies h4 {
   margin: 0 0 0.65rem;
-  color: #183153;
+  color: var(--heading);
   font-size: 0.9rem;
 }
 
@@ -299,10 +299,10 @@
 
 .internship-card-technologies li {
   padding: 0.35rem 0.65rem;
-  border: 1px solid #bae6fd;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
-  background: #f0f9ff;
-  color: #183153;
+  background: var(--soft);
+  color: var(--heading);
   font-size: 0.8rem;
   font-weight: 700;
 }
@@ -310,12 +310,12 @@
 .internship-card-detail {
   margin-top: 1.4rem;
   padding-top: 1.2rem;
-  border-top: 1px solid #e0f2fe;
+  border-top: 1px solid var(--tint);
 }
 
 .site-page .internship-card-detail h4 {
   margin: 0 0 0.65rem;
-  color: #183153;
+  color: var(--heading);
   font-size: 0.9rem;
 }
 
@@ -328,7 +328,7 @@
 }
 
 .internship-card-detail li::marker {
-  color: #1d4ed8;
+  color: var(--accent);
 }
 
 .internship-card-learning {
@@ -339,7 +339,7 @@
 
 .site-page .internship-card-learning p {
   margin: 0;
-  color: #365572;
+  color: var(--text);
 }
 
 @media (max-width: 760px) {
