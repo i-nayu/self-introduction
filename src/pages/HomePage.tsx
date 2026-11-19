@@ -29,7 +29,6 @@ export default function HomePage() {
         <div className="home-section-heading">
           <div>
             <h2 id="home-featured-title">Featured Products</h2>
-            <p>注目の制作物を紹介します。</p>
           </div>
           <Link className="home-text-link" to="/products">すべての制作物 <span aria-hidden="true">→</span></Link>
         </div>

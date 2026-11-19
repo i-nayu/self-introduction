@@ -40,12 +40,18 @@
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
 .site-nav-link:hover,
 .site-nav-link.is-active {
   color: #1d4ed8;
   background: #bae6fd;
+}
+
+.site-nav-link:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 3px;
 }
 
 .site-skip-link {
@@ -71,6 +77,12 @@
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
   text-align: left;
+  animation: site-page-appear 250ms ease-out both;
+}
+
+@keyframes site-page-appear {
+  from { transform: translateY(6px); }
+  to { transform: translateY(0); }
 }
 
 .site-page h1 {
@@ -106,5 +118,15 @@
   .site-header-inner {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-page {
+    animation: none;
+  }
+
+  .site-nav-link {
+    transition: none;
   }
 }

@@ -1,3 +1,4 @@
+import { SiGithub } from 'react-icons/si';
 import type { Product } from '../types/content';
 import './ProductCard.css';
 
@@ -30,13 +31,18 @@ export default function ProductCard({ product, anchorId }: ProductCardProps) {
             ))}
           </ul>
         )}
-        {(product.siteUrl || product.githubUrl) && (
+        {(product.productUrl || product.introductionUrl || product.githubUrl) && (
           <div className="product-card-links">
-            {product.siteUrl && (
-              <a href={product.siteUrl} target="_blank" rel="noopener noreferrer">公開サイト ↗</a>
+            {product.productUrl && (
+              <a href={product.productUrl} target="_blank" rel="noopener noreferrer">公開サイト</a>
+            )}
+            {product.introductionUrl && (
+              <a href={product.introductionUrl} target="_blank" rel="noopener noreferrer">紹介ページ</a>
             )}
             {product.githubUrl && (
-              <a href={product.githubUrl} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+              <a href={product.githubUrl} target="_blank" rel="noopener noreferrer">
+                <SiGithub aria-hidden="true" focusable="false" />GitHub
+              </a>
             )}
           </div>
         )}

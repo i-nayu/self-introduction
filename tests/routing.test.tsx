@@ -187,15 +187,20 @@ describe('サイトのルート', () => {
       for (const technology of product.technologies) {
         expect(card).toContain(technology);
       }
-      if (product.siteUrl) {
-        expect(card).toContain(`href="${product.siteUrl}"`);
+      if (product.productUrl) {
+        expect(card).toContain(`href="${product.productUrl}"`);
       } else {
-        expect(card).not.toContain('公開サイト ↗');
+        expect(card).not.toContain('公開サイト');
+      }
+      if (product.introductionUrl) {
+        expect(card).toContain(`href="${product.introductionUrl}"`);
+      } else {
+        expect(card).not.toContain('紹介ページ');
       }
       if (product.githubUrl) {
         expect(card).toContain(`href="${product.githubUrl}"`);
       } else {
-        expect(card).not.toContain('GitHub ↗');
+        expect(card).not.toContain('GitHub');
       }
     }
   });

@@ -68,3 +68,18 @@ test('ターミナルのcdコマンドでページを移動できる', async ({ 
   await expect(page).toHaveURL(/\/skills$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Skills' })).toBeVisible();
 });
+
+test('動きを減らす設定ではページとカードの演出を停止する', async ({ page }) => {
+  await page.goto('/products');
+
+  const content = page.locator('.site-page');
+  const card = page.locator('.product-card').first();
+  await expect(content).toHaveCSS('animation-name', 'site-page-appear');
+  await expect(card).toHaveCSS('transition-duration', '0.18s, 0.18s, 0.18s');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(content).toHaveCSS('animation-name', 'none');
+  await expect(card).toHaveCSS('transition-duration', '0s');
+  await card.hover();
+  await expect(card).toHaveCSS('transform', 'none');
+});
