@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Terminal as XtermTerminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
+import { Terminal as XtermTerminal } from '@xterm/xterm';
+import { FitAddon } from '@xterm/addon-fit';
 import { executeCommand } from './terminalCommands';
 import { redrawCommand, submitCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
 import { backspaceAtCursor, browseHistory, insertAtCursor, moveCursor, printableInput } from './terminalInput';
-import 'xterm/css/xterm.css';
+import '@xterm/xterm/css/xterm.css';
 import './Terminal.css';
 
 export default function Terminal() {
