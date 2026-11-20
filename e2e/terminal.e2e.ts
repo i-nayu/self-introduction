@@ -29,7 +29,70 @@ async function terminalTranscript(terminal: Locator): Promise<string> {
   throw new Error('ターミナルのスクロール末尾に到達できませんでした');
 }
 
+// xtermは描画・リサイズ時に行の要素を作り直すので、座標を取得できるまで待つ。
+async function visibleBox(locator: Locator): Promise<NonNullable<Awaited<ReturnType<Locator['boundingBox']>>>> {
+  let box: Awaited<ReturnType<Locator['boundingBox']>> = null;
+  await expect.poll(async () => {
+    box = await locator.boundingBox();
+    return box;
+  }).not.toBeNull();
+  return box!;
+}
+
 test.use({ viewport: { width: 375, height: 812 } }); //スマホ画面サイズ
+
+// 実際にマウス選択し、xtermのcopyイベントが出力する文字列を読む。
+// OSのクリップボードは書き換えず、改行・空白を含めてそのまま比較する。
+async function copyEditableInput(terminal: Locator): Promise<string> {
+  const page = terminal.page();
+  const prompt = terminal.locator('.xterm-rows > div').filter({ hasText: /^> / }).first();
+  const cursor = terminal.locator('.xterm-cursor');
+  await expect(prompt).toBeVisible();
+  await expect(cursor).toBeVisible();
+  const start = await visibleBox(prompt);
+  const end = await visibleBox(cursor);
+  await page.mouse.move(start.x + end.width * 2 + 0.5, start.y + start.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(end.x + 0.5, end.y + end.height / 2, { steps: 15 });
+  await page.mouse.up();
+  await expect(terminal.locator('.xterm-selection div:visible').first()).toBeVisible();
+  return terminal.locator('.xterm').evaluate((element) => {
+    const clipboardData = new DataTransfer();
+    element.dispatchEvent(new ClipboardEvent('copy', { clipboardData, bubbles: true, cancelable: true }));
+    return clipboardData.getData('text/plain');
+  });
+}
+
+for (const kind of ['spaces', 'unicode', 'viewport-bottom'] as const) {
+  test(`折り返した入力をコピーしても元の文字列を保つ（${kind}）`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const terminal = page.getByRole('group', { name: '操作できるポートフォリオのターミナル' });
+    await terminal.locator('.Terminal-container').click();
+    const rows = terminal.locator('.xterm-rows');
+    await expect(rows).toHaveText(/>\s*$/);
+    const screen = await visibleBox(terminal.locator('.xterm-screen'));
+    const cursor = await visibleBox(terminal.locator('.xterm-cursor'));
+    const cols = Math.round(screen.width / cursor.width);
+    const rowCount = await terminal.locator('.xterm-rows > div').count();
+    const command = kind === 'spaces'
+      ? `echo ${'a'.repeat(cols - 8)}  next  word  tail `
+      : kind === 'unicode'
+        ? `echo ${'a'.repeat(cols - 8)}日本語😀e\u0301  末尾`
+        : `echo ${'a'.repeat(cols * (rowCount - 1) - 7)}`;
+    await page.keyboard.insertText(command);
+    await expect(rows).toContainText(kind === 'unicode' ? '末尾' : command.slice(-5).trim());
+    await expect.poll(() => copyEditableInput(terminal)).toBe(command);
+
+    if (kind === 'unicode') {
+      // リサイズによる再描画でも、折り返し情報と元の文字を保持する。
+      await page.keyboard.press('End');
+      await page.setViewportSize({ width: 320, height: 640 });
+      await expect(rows).toContainText('末尾');
+      await expect.poll(() => copyEditableInput(terminal)).toBe(command);
+    }
+  });
+}
 
 test('画面より長い入力を編集してもスクロール履歴に複製を増やさず、全文を実行できる', async ({ page }) => {
   await page.goto('/');
@@ -150,7 +213,7 @@ for (const width of [375, 1280]) {
     await expect(firstLine).toHaveText('Welcome to my portfolio!');
     const firstText = firstLine.locator('span').first();
     await expect(firstText).toBeVisible();
-    const firstBox = (await firstText.boundingBox())!;
+    const firstBox = await visibleBox(firstText);
 
     await page.mouse.move(firstBox.x + 0.5, firstBox.y + firstBox.height / 2);
     await page.mouse.down();
@@ -161,18 +224,20 @@ for (const width of [375, 1280]) {
     await expect(selection).toHaveCount(1);
     // 文字だけに余白が付くと、マウス座標と選択背景が別の行・列へずれる。
     await expect.poll(async () => {
-      const box = (await selection.first().boundingBox())!;
+      const box = await selection.first().boundingBox();
+      if (!box) return Infinity;
       return Math.max(Math.abs(box.x - firstBox.x), Math.abs(box.y - firstBox.y), Math.abs(box.width - firstBox.width), Math.abs(box.height - firstBox.height));
     }).toBeLessThan(1);
 
-    const secondBox = (await terminal.locator('.xterm-rows > div').nth(1).locator('span').first().boundingBox())!;
+    const secondBox = await visibleBox(terminal.locator('.xterm-rows > div').nth(1).locator('span').first());
     await page.mouse.move(firstBox.x + 0.5, firstBox.y + firstBox.height / 2);
     await page.mouse.down();
     await page.mouse.move(secondBox.x + secondBox.width - 0.5, secondBox.y + secondBox.height / 2, { steps: 10 });
     await page.mouse.up();
     await expect(selection).toHaveCount(2);
     await expect.poll(async () => {
-      const box = (await selection.nth(1).boundingBox())!;
+      const box = await selection.nth(1).boundingBox();
+      if (!box) return Infinity;
       return Math.max(Math.abs(box.x - secondBox.x), Math.abs(box.y - secondBox.y), Math.abs(box.width - secondBox.width), Math.abs(box.height - secondBox.height));
     }).toBeLessThan(1);
   });

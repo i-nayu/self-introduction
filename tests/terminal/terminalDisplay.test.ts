@@ -27,9 +27,9 @@ describe('ターミナルの入力表示', () => {
     });
   });
 
-  it('「指定された位置に文字を描き、カーソルを戻すための命令文字列」を正しく作れる（描画している間だけ、xterm自身の自動折り返しを一時停止）', () => {
+  it('自動折り返しを有効にして表示範囲を連続して描き、カーソルを戻す', () => {
     expect(drawInputWindow({ lines: ['> echo a', 'bc'], cursorRow: 0, cursorColumn: 7 }, 2)).toBe(
-      '\x1b[?7l\x1b[3;1H> echo a\x1b[4;1Hbc\x1b[3;8H\x1b[?7h',
+      '\x1b[3;1H\x1b[?7h> echo abc\x1b[3;8H',
     );
   });
 });
