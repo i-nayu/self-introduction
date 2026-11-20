@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Terminal as XtermTerminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
+import { Terminal as XtermTerminal } from '@xterm/xterm';
+import { FitAddon } from '@xterm/addon-fit';
 import { executeCommand } from './terminalCommands';
-import { redrawCommand, submitCommand, wrappedRowsBeforePrompt } from './terminalDisplay';
+import { TerminalInputViewport } from './terminalViewport';
 import { backspaceAtCursor, browseHistory, insertAtCursor, moveCursor, printableInput } from './terminalInput';
-import 'xterm/css/xterm.css';
+import '@xterm/xterm/css/xterm.css';
 import './Terminal.css';
 
 export default function Terminal() {
@@ -54,24 +54,19 @@ export default function Terminal() {
       });
     };
 
-    // カーソルが折り返し先にあっても、入力の先頭行まで戻る行数を求める。
-    const rowsBeforePrompt = () => {
-      const buffer = term.buffer.active;
-      const currentRow = buffer.baseY + buffer.cursorY;
-      return wrappedRowsBeforePrompt(
-        currentRow,
-        (row) => buffer.getLine(row)?.isWrapped ?? false,
-      );
-    };
+    const inputViewport = new TerminalInputViewport(term, write); // 入力欄の描画を担当するクラス
 
     // 現在の入力内容を、カーソル位置を保ったままターミナルに描き直す
     const showInput = () => {
       const value = commandBuffer.current;
       const caretIndex = cursorIndex.current;
-      enqueue(() => write(redrawCommand(value, caretIndex, rowsBeforePrompt())));
+      enqueue(() => inputViewport.show(value, caretIndex));
     };
 
-    enqueue(() => write('Welcome to my portfolio!\r\nType "help" for available commands.\r\n> '));
+    enqueue(async () => {
+      await write('Welcome to my portfolio!\r\nType "help" for available commands.\r\n> ');
+      inputViewport.startPrompt();
+    });
 
     //キー入力を受け付ける
     const inputSubscription = term.onData((data) => {
@@ -82,10 +77,11 @@ export default function Terminal() {
         commandHistory.current = result.history;
 
         enqueue(async () => {
-          await write(submitCommand(value, rowsBeforePrompt()));
+          await inputViewport.submit(value);
           for (const line of result.lines) await write(`${line}\r\n`);
           if (result.action?.type === 'clear') term.clear();
           await write('\r\n> ');
+          inputViewport.startPrompt();
         });
 
         // コマンドの実行結果に応じてアクションを実行する
@@ -121,6 +117,13 @@ export default function Terminal() {
         return;
       }
 
+      // 長い入力でも先頭・末尾へ移動できるよう、Home / Endを扱う。
+      if (['\x1b[H', '\x1b[1~', '\x1b[F', '\x1b[4~'].includes(data)) {
+        cursorIndex.current = data === '\x1b[H' || data === '\x1b[1~' ? 0 : [...commandBuffer.current].length;
+        showInput();
+        return;
+      }
+
       // 上矢印キーまたは下矢印キーが押された場合、履歴を参照する
       if (data === '\x1b[A' || data === '\x1b[B') {
         const direction = data === '\x1b[A' ? 'previous' : 'next';
@@ -146,12 +149,13 @@ export default function Terminal() {
 
     // ウィンドウサイズが変更されたときにターミナルをリサイズする
     const resizeObserver = new ResizeObserver(() => {
-      fitAddon.fit();
+      enqueue(() => inputViewport.resize(() => fitAddon.fit()));
     });
     resizeObserver.observe(terminalRef.current);
 
     return () => {
       disposed = true;
+      inputViewport.dispose();
       resizeObserver.disconnect();
       inputSubscription.dispose();
       term.dispose();
