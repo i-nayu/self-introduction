@@ -8,6 +8,8 @@
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
+    /* 文字・選択範囲・マウス座標の原点を揃えたまま、全体に余白を付ける。 */
+    padding: 10px;
 
     /* 重要：これによって中身が外枠から絶対にはみ出さない */
     overflow: hidden;
@@ -20,7 +22,6 @@
     height: 100% !important;
     /* 念のためここにもhidden */
     overflow: hidden;
-    border-radius: 20px;
 }
 
 /* 3. xterm本体の強制オーバーライド */
@@ -28,8 +29,6 @@
 .xterm-scrollable-element,
 .xterm-screen {
     background-color: var(--terminal-bg) !important;
-    /* xterm自体が独自のpaddingやmarginを持って角丸を突き破るのを防ぐ */
-    border-radius: 16px !important;
 }
 
 
@@ -39,10 +38,4 @@
     padding: 0 !important;
     text-align: left !important;
     background: transparent !important;
-}
-
-/* 文字位置の微調整 */
-.xterm-rows {
-    padding-left: 10px !important;
-    padding-top: 10px !important;
 }

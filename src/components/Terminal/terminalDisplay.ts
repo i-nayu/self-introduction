@@ -1,27 +1,26 @@
-//この行は前の行から折り返された行かを調べる
-export function wrappedRowsBeforePrompt(currentRow: number, isWrapped: (row: number) => boolean): number {
-  let row = currentRow;
-
-
-  while (row > 0 && isWrapped(row)) {
-    row -= 1;
-  }
-
-  return currentRow - row;
+export interface InputLayout {
+  lines: string[]; // 入力全体を描画した結果の行列
+  cursorRow: number; // カーソル位置の行番号
+  cursorColumn: number; // カーソル位置の列番号
 }
 
-export function redrawCommand(value: string, cursorIndex: number, rowsBeforePrompt: number): string {
-  const characters = [...value];
-  const beforeCursor = characters.slice(0, cursorIndex).join('');
-  const afterCursor = characters.slice(cursorIndex).join('');
-  const moveToPrompt = rowsBeforePrompt > 0 ? `\x1b[${rowsBeforePrompt}A` : '';
-
-  // 入力の先頭へ戻り、折り返した行も消してからカーソル位置を復元する。
-  return `${moveToPrompt}\r\x1b[0J> ${beforeCursor}\x1b[s${afterCursor}\x1b[u`;
+// 入力全文のうち、カーソルを含む画面内の行だけを表示する。
+export function inputWindow(layout: InputLayout, rows: number): InputLayout {
+  const start = Math.max(0, layout.cursorRow - rows + 1);
+  return {
+    lines: layout.lines.slice(start, start + rows),
+    cursorRow: layout.cursorRow - start,
+    cursorColumn: layout.cursorColumn,
+  };
 }
 
-//Enterを押したときの表示だけを整えるため
-export function submitCommand(value: string, rowsBeforePrompt: number): string {
-  // 入力途中の編集位置ではなく、コマンドの末尾から改行する。
-  return `${redrawCommand(value, [...value].length, rowsBeforePrompt)}\r\n`;
+// 選んだ行を指定位置へ描く命令を作る
+export function drawInputWindow(layout: InputLayout, top: number): string {
+  // 表示範囲だけを連続して書き、自動折り返しによる行のつながりをxtermに記録させる。
+  // 各行へ個別に移動すると、選択・コピー時に折り返しが実際の改行として扱われてしまう。
+  const text = layout.lines.join('');
+  // 行末ちょうどで終わる場合、次の空行はカーソル用に表示範囲へ含まれている。
+  // 空白を1文字書いて折り返しを確定し、BS + ECHでその文字だけ消すと、行のつながりを保てる。
+  const finishWrap = layout.lines.length > 1 && layout.lines.at(-1) === '' ? ' \b\x1b[X' : '';
+  return `\x1b[${top + 1};1H\x1b[?7h${text}${finishWrap}\x1b[${top + layout.cursorRow + 1};${layout.cursorColumn + 1}H`;
 }

@@ -1,30 +1,35 @@
 import { describe, expect, it } from 'vitest';
-import { redrawCommand, submitCommand, wrappedRowsBeforePrompt } from '../../src/components/Terminal/terminalDisplay';
+import { drawInputWindow, inputWindow } from '../../src/components/Terminal/terminalDisplay';
+
+const lines = Array.from({ length: 15 }, (_, index) => `line ${index + 1}`);
 
 describe('ターミナルの入力表示', () => {
-  it('折り返した行をたどってプロンプトまで戻る行数を求める', () => {
-    const wrappedRows = new Set([11, 12, 13]);
-    expect(wrappedRowsBeforePrompt(13, (row) => wrappedRows.has(row))).toBe(3);
-    expect(wrappedRowsBeforePrompt(10, (row) => wrappedRows.has(row))).toBe(0);
+  it('画面内に収まる入力は全行を表示する', () => {
+    const layout = { lines: lines.slice(0, 3), cursorRow: 1, cursorColumn: 4 };
+    expect(inputWindow(layout, 10)).toEqual(layout);
   });
 
-  it('複数行の入力を消して再描画し、途中のカーソル位置へ戻す', () => {
-    expect(redrawCommand('echo abcdef', 6, 2)).toBe(
-      '\x1b[2A\r\x1b[0J> echo a\x1b[sbcdef\x1b[u',
+  it('画面の高さを超えた入力は、末尾のカーソルを含む範囲だけ表示する', () => {
+    expect(inputWindow({ lines, cursorRow: 14, cursorColumn: 2 }, 10)).toEqual({
+      lines: lines.slice(5), cursorRow: 9, cursorColumn: 2,
+    });
+  });
+
+  it('長い入力の先頭へ移動すると、表示範囲も先頭に戻す', () => {
+    expect(inputWindow({ lines, cursorRow: 0, cursorColumn: 2 }, 10)).toEqual({
+      lines: lines.slice(0, 10), cursorRow: 0, cursorColumn: 2,
+    });
+  });
+
+  it('1行しか表示できなくても、編集中の行とカーソルを表示する', () => {
+    expect(inputWindow({ lines, cursorRow: 7, cursorColumn: 3 }, 1)).toEqual({
+      lines: [lines[7]], cursorRow: 0, cursorColumn: 3,
+    });
+  });
+
+  it('自動折り返しを有効にして表示範囲を連続して描き、カーソルを戻す', () => {
+    expect(drawInputWindow({ lines: ['> echo a', 'bc'], cursorRow: 0, cursorColumn: 7 }, 2)).toBe(
+      '\x1b[3;1H\x1b[?7h> echo abc\x1b[3;8H',
     );
-  });
-
-  it('入力が1行でも、現在のカーソル位置から、その行の右端と、さらに下にある行を消す', () => {
-    expect(redrawCommand('hi', 2, 0)).toBe('\r\x1b[0J> hi\x1b[s\x1b[u');
-  });
-
-  it('途中の行でEnterを押しても、コマンド末尾まで再描画してから改行する', () => {
-    expect(submitCommand('echo abcdef', 2)).toBe(
-      '\x1b[2A\r\x1b[0J> echo abcdef\x1b[s\x1b[u\r\n',
-    );
-  });
-
-  it('1行のUnicode入力も全体を表示してから改行する', () => {
-    expect(submitCommand('あ😀', 0)).toBe('\r\x1b[0J> あ😀\x1b[s\x1b[u\r\n');
   });
 });
