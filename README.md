@@ -16,6 +16,10 @@
 | Skills | 学習・開発で使用した技術をカテゴリごとに整理し、インターン経験も紹介 |
 | Products | 制作物の概要、使用技術、公開サイト・紹介ページ・GitHubへのリンクを掲載 |
 
+画面例
+<img width="1512" height="864" alt="image" src="https://github.com/user-attachments/assets/687fb0eb-2f88-4b3b-8312-7565cc68499b" />
+
+
 ### ターミナルによる操作
 
 ホーム画面のターミナルから、ページ移動や外部リンクの表示ができます。
